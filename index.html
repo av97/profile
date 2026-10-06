@@ -365,6 +365,27 @@
         .ct-cel { background:rgba(255,215,0,.1); color:#ffd700; }
         .ct-ref { background:rgba(77,184,255,.1); color:#4db8ff; }
 
+        /* ── SPOTLIGHTS ── */
+        .spot-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; }
+        .spot-card { background:var(--glass); border:1px solid var(--border); padding:44px; position:relative; overflow:hidden; }
+        .spot-card::after { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
+        .spot-msft::after { background:linear-gradient(90deg,#00a4ef,#7fba00,#f25022,#ffb900); }
+        .spot-pepsi::after { background:linear-gradient(90deg,#004b93,#e32934,#004b93); }
+        .spot-type { font-family:var(--mono); font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--orange); margin-bottom:10px; }
+        .spot-title { font-family:var(--display); font-size:3rem; letter-spacing:.03em; line-height:1.1; margin-bottom:6px; }
+        .spot-sub { font-family:var(--mono); font-size:10px; color:var(--dim); letter-spacing:.1em; text-transform:uppercase; margin-bottom:20px; }
+        .spot-ceo { display:inline-flex; align-items:center; gap:8px; background:rgba(255,215,0,.07); border:1px solid rgba(255,215,0,.25); color:#ffd700; font-family:var(--mono); font-size:9px; letter-spacing:.12em; text-transform:uppercase; padding:5px 14px; margin-bottom:24px; }
+        .spot-stats { display:flex; gap:2px; margin-bottom:28px; }
+        .spot-stat { flex:1; border:1px solid var(--border); padding:16px 12px; text-align:center; }
+        .spot-stat .ss-n { font-family:var(--display); font-size:2.2rem; color:var(--orange); line-height:1; }
+        .spot-stat .ss-l { font-family:var(--mono); font-size:8px; color:var(--dim); text-transform:uppercase; letter-spacing:.1em; margin-top:4px; }
+        .spot-body { font-size:.84rem; color:var(--dim); line-height:1.9; margin-bottom:20px; }
+        .spot-body strong { color:var(--fg); font-weight:600; }
+        .spot-q { border-left:2px solid rgba(255,77,0,.35); padding:14px 18px; margin-bottom:10px; background:rgba(255,77,0,.025); }
+        .spot-q blockquote { font-style:italic; font-size:.84rem; color:var(--dim); line-height:1.75; margin-bottom:8px; }
+        .spot-q .sq-src { font-family:var(--mono); font-size:9px; color:var(--orange); letter-spacing:.1em; text-transform:uppercase; }
+        .spot-q .sq-ctx { font-family:var(--mono); font-size:8px; color:var(--dim); letter-spacing:.06em; margin-top:2px; }
+
         /* ── PARTNERS ── */
         .pt-chips { display:flex; flex-wrap:wrap; gap:8px; }
         .pt-chip { padding:7px 16px; border:1px solid var(--border); font-family:var(--mono); font-size:9px; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); transition:border-color .2s,color .2s; }
@@ -429,6 +450,7 @@
             .sk-grid{grid-template-columns:1fr 1fr;}
             .pr-grid{grid-template-columns:1fr;}
             .aw-grid{grid-template-columns:1fr 1fr;}
+            .spot-grid{grid-template-columns:1fr;}
             .ed-card{grid-template-columns:1fr;}
             footer{flex-direction:column;gap:8px;text-align:center;padding:20px 24px;}
         }
@@ -458,6 +480,7 @@
         <li><a href="#experience">Work</a></li>
         <li><a href="#skills">Skills</a></li>
         <li><a href="#projects">Engagements</a></li>
+        <li><a href="#spotlights">Spotlights</a></li>
         <li><a href="#clients">Clients</a></li>
         <li><a href="#awards">Awards</a></li>
         <li><a href="#contact">Contact</a></li>
@@ -632,6 +655,7 @@
                 <div class="pr-n">01</div>
                 <div class="pr-tag">Microsoft · USA · Apr–Nov 2024</div>
                 <div class="pr-name">Project Hogan — 38+ CRDs</div>
+                <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,215,0,.07);border:1px solid rgba(255,215,0,.25);color:#ffd700;font-family:var(--mono);font-size:8px;letter-spacing:.12em;text-transform:uppercase;padding:4px 12px;margin-bottom:12px;">★ Highlighted to the CEO of Microsoft</div>
                 <div class="pr-desc">One of the largest SAP Ariba B&amp;I engagements in the PTS portfolio. Delivered 38+ Change Request Deliverables for Microsoft's global procurement platform — complex AML logic, multi-realm orchestration, and enterprise-scale cutover management.</div>
                 <div class="pr-pills"><span class="pr-pill">Enterprise</span><span class="pr-pill">38+ CRDs</span><span class="pr-pill">Multi-Realm</span><span class="pr-pill">AML</span></div>
             </div>
@@ -670,6 +694,73 @@
                 <div class="pr-desc">End-to-end realm baselining across 27+ SAP Ariba tenants spanning Germany, Netherlands, Belgium, Spain, Italy, Switzerland, Austria, Turkey, Azerbaijan, Ireland, and China. Each realm demands precise pre-configuration, integration validation, and handover coordination — forming the invisible backbone of every deployment that follows.</div>
                 <div class="pr-pills"><span class="pr-pill">27+ Realms</span><span class="pr-pill">14+ Countries</span><span class="pr-pill">Infrastructure</span><span class="pr-pill">Multi-node</span></div>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- SPOTLIGHT PROJECTS -->
+<div id="spotlights">
+    <div class="sw">
+        <div class="s-lbl r">Deep Dive</div>
+        <h2 class="s-ttl r d2">SPOTLIGHT<br>PROJECTS</h2>
+        <div class="spot-grid">
+
+            <!-- Microsoft -->
+            <div class="spot-card spot-msft r d1">
+                <div class="spot-type">Enterprise Engagement · SAP Ariba B&amp;I</div>
+                <div class="spot-title">Microsoft —<br>Project Hogan</div>
+                <div class="spot-sub">USA · Redmond, WA · April – November 2024</div>
+                <div class="spot-ceo">★ &nbsp; Highlighted to the CEO of Microsoft</div>
+                <div class="spot-stats">
+                    <div class="spot-stat"><div class="ss-n">38+</div><div class="ss-l">CRDs Delivered</div></div>
+                    <div class="spot-stat"><div class="ss-n">8</div><div class="ss-l">Months</div></div>
+                    <div class="spot-stat"><div class="ss-n">15+</div><div class="ss-l">Team Members</div></div>
+                </div>
+                <div class="spot-body">
+                    <strong>Scope:</strong> Full SAP Ariba Buying &amp; Invoicing implementation for Microsoft's MS-Authorize global procurement platform. Delivered 38+ custom requirement documents covering PR approval flow redesign, multi-level threshold-based approval chains ($5K–$500M), tax line item configurations for OneTax/Vertex integration, noncatalog item logic, Guided Buying policy enforcement, and custom field packages across header and line levels.<br><br>
+                    <strong>Role:</strong> B&amp;I Custom Fields Developer — built and unit-tested complex AML/Groovy expressions for approval routing, field validations, and CRD implementations. Delivered quick-turnaround change requests praised by the project lead in front of the entire Microsoft + SAP team.<br><br>
+                    <strong>Team:</strong> Arul Anjaneyan (Lead) · Vijay Alisetty (Tax/ISBN) · Gustavo Cassuriaga (PM) · Billy Lester · Lucas Cheng · Paul Pubal · Thomas Clarke · Shruthi Nagaraj · William Oshodin · Jesus Bohorquez
+                </div>
+                <div class="spot-q">
+                    <blockquote>"I would like to recognize the quality of your work and the turnaround speed to complete the PR Approval Changes. Sincerely appreciate the efforts and a great thank you!"</blockquote>
+                    <div class="sq-src">Arul Anjaneyan · Project Lead</div>
+                    <div class="sq-ctx">Sent to entire Hogan team including Microsoft stakeholders · June 2024</div>
+                </div>
+                <div class="spot-q">
+                    <blockquote>"This project has not been an easy one by any means and you have handled it very well taking care of delivering everything with quality and timely."</blockquote>
+                    <div class="sq-src">Alok Sinha · Manager</div>
+                    <div class="sq-ctx">Followed by VP Daryl D'Angelo: "Well done Ayushman!" · July 2024</div>
+                </div>
+            </div>
+
+            <!-- PepsiCo -->
+            <div class="spot-card spot-pepsi r d2">
+                <div class="spot-type">Global SNAP Deployment + Ongoing Custom Packs</div>
+                <div class="spot-title">PepsiCo —<br>PGCS / myBUY</div>
+                <div class="spot-sub">Global (USA · LATAM · EMEA · APJ) · Accenture · 2025 – Ongoing</div>
+                <div class="spot-ceo">✦ &nbsp; Perfect 7/7 VOC · All Dimensions</div>
+                <div class="spot-stats">
+                    <div class="spot-stat"><div class="ss-n">15+</div><div class="ss-l">CRDs Across Realms</div></div>
+                    <div class="spot-stat"><div class="ss-n">6+</div><div class="ss-l">Realms / Regions</div></div>
+                    <div class="spot-stat"><div class="ss-n">7/7</div><div class="ss-l">Perfect CES</div></div>
+                </div>
+                <div class="spot-body">
+                    <strong>Scope:</strong> Multi-realm SAP Ariba Buying &amp; Invoicing deployment for PepsiCo's global procurement platform (myBUY / PGCS). Delivered 15+ CRDs spanning custom field packages, realm migration, child realm enablement, and ongoing customisation across 6+ production realms covering multiple geographies and business units.<br><br>
+                    <strong>Role:</strong> Lead B&amp;I Technical Consultant — executed realm migration (historically error-prone; completed flawlessly and ahead of schedule), built custom approval flows and field configurations, and provided proactive solution design praised by the customer as "technically sound and cost-effective."<br><br>
+                    <strong>Recognition:</strong> ESA Nomination #5 (Nov 2025). Customer VOC scored perfect 7/7 on all 7 dimensions — the highest possible rating. Specifically praised for solution-oriented approach, quick turnaround, technical expertise, and professionalism.
+                </div>
+                <div class="spot-q">
+                    <blockquote>"They go beyond simply implementing what is indicated; they proactively suggest solutions and workarounds that are not only technically sound but also cost-effective for the client."</blockquote>
+                    <div class="sq-src">PepsiCo, Inc. · Customer VOC</div>
+                    <div class="sq-ctx">Perfect 7/7 across all dimensions · November 2025</div>
+                </div>
+                <div class="spot-q">
+                    <blockquote>"Historically, this process has been prone to issues, but under his execution, it was completed smoothly without errors. Both Test and Prod Child realm enablement were completed earlier than planned."</blockquote>
+                    <div class="sq-src">PepsiCo, Inc. · Customer VOC</div>
+                    <div class="sq-ctx">On realm migration expertise · November 2025</div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
@@ -928,6 +1019,14 @@
             <div class="aw-card r d3" style="border-color:rgba(255,77,0,.15);">
                 <div class="aw-by">Narendra Kumar Javare Gowda, STQC (Govt. of India) · Sep 2026</div>
                 <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"Appreciate your support and follow-up with relevant stakeholders in resolving the issue."</div>
+            </div>
+            <div class="aw-card r d2" style="border-color:rgba(255,77,0,.15);">
+                <div class="aw-by">Arul Anjaneyan, Project Lead · Microsoft Project Hogan · Jun 2024</div>
+                <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"I would like to recognize the quality of your work and the turnaround speed to complete the PR Approval Changes. Sincerely appreciate the efforts and a great thank you!" — Sent to the entire Hogan team including Microsoft stakeholders.</div>
+            </div>
+            <div class="aw-card r d3" style="border-color:rgba(255,77,0,.15);">
+                <div class="aw-by">Alok Sinha, Manager · Microsoft Project Hogan · Jun 2024</div>
+                <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"Great feedback from the field consulting team for your work on the Microsoft project. This project has not been an easy one by any means and you have handled it very well taking care of delivering everything with quality and timely."</div>
             </div>
             <div class="aw-card r d1" style="border-color:rgba(255,77,0,.15);">
                 <div class="aw-by">Rashmi Mulimani, Manager · LEG Management VOC · Mar 2024</div>
