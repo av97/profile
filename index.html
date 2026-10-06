@@ -325,13 +325,50 @@
         .pr-pill { padding:3px 9px; background:rgba(255,255,255,.04); border-radius:2px; font-family:var(--mono); font-size:9px; letter-spacing:.06em; color:var(--dim); text-transform:uppercase; }
 
         /* ── AWARDS ── */
-        .aw-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; }
-        .aw-card { border:1px solid var(--border); padding:28px; transition:border-color .3s; }
+        .aw-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(380px,1fr)); gap:2px; }
+        .aw-card { border:1px solid var(--border); padding:36px; transition:border-color .3s; }
         .aw-card:hover { border-color:rgba(255,77,0,.3); }
-        .aw-yr { font-family:var(--display); font-size:3.5rem; color:rgba(240,236,228,.07); line-height:1; margin-bottom:4px; }
-        .aw-by { font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--orange); margin-bottom:8px; }
-        .aw-name { font-size:.95rem; font-weight:500; line-height:1.4; margin-bottom:8px; }
-        .aw-desc { font-size:.8rem; color:var(--dim); line-height:1.75; }
+        .aw-yr { font-family:var(--display); font-size:4rem; color:rgba(240,236,228,.07); line-height:1; margin-bottom:4px; }
+        .aw-by { font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--orange); margin-bottom:10px; }
+        .aw-name { font-size:1.05rem; font-weight:600; line-height:1.4; margin-bottom:12px; }
+        .aw-desc { font-size:.85rem; color:var(--dim); line-height:1.8; }
+
+        /* ── VOC SCORECARD ── */
+        .voc-wrap { overflow-x:auto; }
+        .voc-tbl { width:100%; border-collapse:collapse; font-size:.8rem; min-width:760px; }
+        .voc-tbl th { font-family:var(--mono); font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--orange); border-bottom:1px solid var(--border); padding:14px 16px; text-align:left; white-space:nowrap; }
+        .voc-tbl td { padding:13px 16px; border-bottom:1px solid var(--border); vertical-align:middle; }
+        .voc-tbl tr:hover td { background:var(--glass); }
+        .voc-tbl td:first-child { font-weight:500; }
+        .vsc-7 { color:#36b37e; font-weight:700; font-family:var(--mono); }
+        .vsc-6 { color:#4db8ff; font-weight:700; font-family:var(--mono); }
+        .vsc-d { color:var(--dim); }
+        .voc-pill { font-family:var(--mono); font-size:8px; letter-spacing:.08em; text-transform:uppercase; padding:2px 8px; border-radius:2px; }
+        .voc-esa { background:rgba(255,77,0,.15); color:var(--orange); }
+        .voc-ref { background:rgba(54,179,126,.15); color:#36b37e; }
+
+        /* ── CLIENT PORTFOLIO ── */
+        .cat-block { margin-bottom:2px; }
+        .cat-hdr { background:var(--glass); border:1px solid var(--border); border-bottom:none; padding:18px 28px; display:flex; justify-content:space-between; align-items:center; }
+        .cat-hdr-name { font-family:var(--display); font-size:1.6rem; letter-spacing:.05em; }
+        .cat-hdr-ct { font-family:var(--mono); font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--orange); }
+        .cl-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:0; border:1px solid var(--border); border-top:none; }
+        .cl-item { padding:16px 20px; border-right:1px solid var(--border); border-bottom:1px solid var(--border); transition:background .2s; }
+        .cl-item:hover { background:var(--glass); }
+        .cl-item.hl { border-top:2px solid var(--orange); margin-top:-1px; }
+        .cl-nm { font-size:.85rem; font-weight:500; margin-bottom:4px; line-height:1.3; }
+        .cl-meta { font-family:var(--mono); font-size:9px; color:var(--dim); letter-spacing:.04em; margin-bottom:8px; line-height:1.5; }
+        .cl-tags { display:flex; flex-wrap:wrap; gap:4px; }
+        .cl-t { padding:2px 7px; border-radius:2px; font-family:var(--mono); font-size:8px; letter-spacing:.04em; text-transform:uppercase; }
+        .ct-voc { background:rgba(54,179,126,.12); color:#36b37e; }
+        .ct-esa { background:rgba(255,77,0,.12); color:var(--orange); }
+        .ct-cel { background:rgba(255,215,0,.1); color:#ffd700; }
+        .ct-ref { background:rgba(77,184,255,.1); color:#4db8ff; }
+
+        /* ── PARTNERS ── */
+        .pt-chips { display:flex; flex-wrap:wrap; gap:8px; }
+        .pt-chip { padding:7px 16px; border:1px solid var(--border); font-family:var(--mono); font-size:9px; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); transition:border-color .2s,color .2s; }
+        .pt-chip:hover { border-color:rgba(255,77,0,.45); color:var(--fg); }
 
         /* ── EDUCATION ── */
         .ed-card {
@@ -421,6 +458,8 @@
         <li><a href="#experience">Work</a></li>
         <li><a href="#skills">Skills</a></li>
         <li><a href="#projects">Projects</a></li>
+        <li><a href="#clients">Clients</a></li>
+        <li><a href="#awards">Awards</a></li>
         <li><a href="#contact">Contact</a></li>
     </ul>
 </nav>
@@ -614,20 +653,175 @@
     </div>
 </div>
 
+<!-- CLIENT PORTFOLIO -->
+<div id="clients">
+    <div class="sw">
+        <div class="s-lbl r">Full Roster</div>
+        <h2 class="s-ttl r d1">70+<br>CLIENTS</h2>
+        <div class="cat-block r d1">
+            <div class="cat-hdr"><span class="cat-hdr-name">SNAP Buying Deployments</span><span class="cat-hdr-ct">22 customers</span></div>
+            <div class="cl-grid">
+                <div class="cl-item hl"><div class="cl-nm">PepsiCo (PGCS)</div><div class="cl-meta">USA · Accenture · Nov 2025</div><div class="cl-tags"><span class="cl-t ct-voc">VOC 7/7</span><span class="cl-t ct-esa">ESA #5</span></div></div>
+                <div class="cl-item hl"><div class="cl-nm">LEG Immobilien SE</div><div class="cl-meta">Germany · Mar 2024</div><div class="cl-tags"><span class="cl-t ct-voc">VOC 7/7</span><span class="cl-t ct-esa">ESA #4</span></div></div>
+                <div class="cl-item hl"><div class="cl-nm">ZENTIS Holding GmbH</div><div class="cl-meta">Germany · Nov 2023</div><div class="cl-tags"><span class="cl-t ct-voc">VOC</span><span class="cl-t ct-esa">ESA #3</span></div></div>
+                <div class="cl-item hl"><div class="cl-nm">Gerresheimer AG</div><div class="cl-meta">Germany · Aug 2023</div><div class="cl-tags"><span class="cl-t ct-voc">VOC</span><span class="cl-t ct-esa">ESA #2</span></div></div>
+                <div class="cl-item hl"><div class="cl-nm">iQibt / Gemeente Amsterdam</div><div class="cl-meta">Netherlands · Jan 2025</div><div class="cl-tags"><span class="cl-t ct-voc">VOC 7/7</span><span class="cl-t ct-ref">Referenceability</span></div></div>
+                <div class="cl-item hl"><div class="cl-nm">UvA / HvA</div><div class="cl-meta">Netherlands · McCoy · Oct 2024</div><div class="cl-tags"><span class="cl-t ct-voc">VOC 7/7</span></div></div>
+                <div class="cl-item hl"><div class="cl-nm">Fielmann AG</div><div class="cl-meta">Germany · apsolut · Dec 2022</div><div class="cl-tags"><span class="cl-t ct-voc">VOC</span><span class="cl-t ct-esa">ESA #1</span></div></div>
+                <div class="cl-item"><div class="cl-nm">SKF Lubrication Systems</div><div class="cl-meta">Germany · Emergys · Jun 2026</div></div>
+                <div class="cl-item"><div class="cl-nm">AGRAVIS Raiffeisen AG</div><div class="cl-meta">Germany · apsolut · Jun 2026</div></div>
+                <div class="cl-item"><div class="cl-nm">Apetito AG</div><div class="cl-meta">Germany · apsolut · Jun 2026</div></div>
+                <div class="cl-item"><div class="cl-nm">ÖAMTC</div><div class="cl-meta">Austria · Axians · Nov 2025</div></div>
+                <div class="cl-item"><div class="cl-nm">Eolo</div><div class="cl-meta">Italy · Avvale · Apr 2025</div></div>
+                <div class="cl-item"><div class="cl-nm">IDIADA-APPLUS</div><div class="cl-meta">Spain · Seidor · Jan 2025</div></div>
+                <div class="cl-item"><div class="cl-nm">Acquedotto Pugliese</div><div class="cl-meta">Italy · Accenture · Nov 2024</div></div>
+                <div class="cl-item"><div class="cl-nm">Université de Genève</div><div class="cl-meta">Switzerland · Acxias · Dec 2023</div></div>
+                <div class="cl-item"><div class="cl-nm">Gerolsteiner Brunnen</div><div class="cl-meta">Germany · valantic · Nov 2023</div></div>
+                <div class="cl-item"><div class="cl-nm">Fr. Jacob Söhne</div><div class="cl-meta">Germany · May 2023</div></div>
+                <div class="cl-item"><div class="cl-nm">Energie Steiermark AG</div><div class="cl-meta">Austria · CNT · Feb 2023</div></div>
+                <div class="cl-item"><div class="cl-nm">SAMSON AG</div><div class="cl-meta">Germany · Incospro · Dec 2022</div></div>
+                <div class="cl-item"><div class="cl-nm">COBEGA</div><div class="cl-meta">Spain · SEIDOR · Nov 2022</div></div>
+                <div class="cl-item"><div class="cl-nm">SunExpress</div><div class="cl-meta">Turkey · BFE · Sep 2022</div></div>
+                <div class="cl-item"><div class="cl-nm">EliorData</div><div class="cl-meta">France · 2023</div></div>
+            </div>
+        </div>
+        <div class="cat-block r d2">
+            <div class="cat-hdr"><span class="cat-hdr-name">Custom Packs / SOW</span><span class="cat-hdr-ct">16 customers</span></div>
+            <div class="cl-grid">
+                <div class="cl-item hl"><div class="cl-nm">MKS / Atotech</div><div class="cl-meta">USA &amp; Poland · 2+ years · Ongoing</div><div class="cl-tags"><span class="cl-t ct-cel">Celebrate Award</span></div></div>
+                <div class="cl-item"><div class="cl-nm">Synopsys</div><div class="cl-meta">USA · 5-pack · Aug 2026</div></div>
+                <div class="cl-item"><div class="cl-nm">Pegasystems</div><div class="cl-meta">USA · Jul–Sep 2026</div></div>
+                <div class="cl-item"><div class="cl-nm">MAHLE International</div><div class="cl-meta">Germany · Jul 2026–ongoing</div></div>
+                <div class="cl-item"><div class="cl-nm">Adient</div><div class="cl-meta">Global (Automotive) · Jun 2026</div></div>
+                <div class="cl-item"><div class="cl-nm">Nova (NSU)</div><div class="cl-meta">USA · Premikati · Sep 2026</div></div>
+                <div class="cl-item"><div class="cl-nm">Shutterfly</div><div class="cl-meta">USA · 10-pack · Feb 2026</div></div>
+                <div class="cl-item"><div class="cl-nm">US Foods</div><div class="cl-meta">USA · Wipro · Feb 2026</div></div>
+                <div class="cl-item"><div class="cl-nm">The Aerospace Corp</div><div class="cl-meta">USA · Mar 2026</div></div>
+                <div class="cl-item"><div class="cl-nm">Lonza</div><div class="cl-meta">Switzerland · EY · Feb 2025</div></div>
+                <div class="cl-item"><div class="cl-nm">Abraxas Informatik</div><div class="cl-meta">Switzerland · Jul 2025</div></div>
+                <div class="cl-item"><div class="cl-nm">Novocure</div><div class="cl-meta">USA · 6 CRDs · Jul 2025</div></div>
+                <div class="cl-item"><div class="cl-nm">EQH / Equitable Holdings</div><div class="cl-meta">USA · Accenture · Dec 2024</div></div>
+                <div class="cl-item"><div class="cl-nm">Boston Scientific</div><div class="cl-meta">USA / Israel · Feb–May 2024</div></div>
+                <div class="cl-item"><div class="cl-nm">Delivery Hero</div><div class="cl-meta">Germany · Sep 2026</div></div>
+                <div class="cl-item"><div class="cl-nm">Ferrero</div><div class="cl-meta">International</div></div>
+            </div>
+        </div>
+        <div class="cat-block r d3">
+            <div class="cat-hdr"><span class="cat-hdr-name">Enterprise &amp; Regular Projects</span><span class="cat-hdr-ct">5 customers</span></div>
+            <div class="cl-grid">
+                <div class="cl-item hl"><div class="cl-nm">Microsoft — Project Hogan</div><div class="cl-meta">USA · 38+ CRDs · Apr–Nov 2024</div></div>
+                <div class="cl-item hl"><div class="cl-nm">PepsiCo (myBUY)</div><div class="cl-meta">Global · Accenture · 15+ CRDs, 6+ realms · Ongoing</div></div>
+                <div class="cl-item"><div class="cl-nm">Arkansas Electric (AEC)</div><div class="cl-meta">USA · CRD · Aug 2025</div></div>
+                <div class="cl-item"><div class="cl-nm">Gila River Gaming</div><div class="cl-meta">USA</div></div>
+            </div>
+        </div>
+        <div class="cat-block r d1">
+            <div class="cat-hdr"><span class="cat-hdr-name">SNAP Realm Baselining</span><span class="cat-hdr-ct">27+ realms</span></div>
+            <div class="cl-grid">
+                <div class="cl-item"><div class="cl-nm">FUNKE</div><div class="cl-meta">Germany</div></div>
+                <div class="cl-item"><div class="cl-nm">GLOVOAPP23</div><div class="cl-meta">Spain · Apr 2022</div></div>
+                <div class="cl-item"><div class="cl-nm">COBEGA</div><div class="cl-meta">Spain</div></div>
+                <div class="cl-item"><div class="cl-nm">Brussels Airport</div><div class="cl-meta">Belgium</div></div>
+                <div class="cl-item"><div class="cl-nm">TTS Tooltechnic</div><div class="cl-meta">Germany · apsolut · May 2022</div></div>
+                <div class="cl-item"><div class="cl-nm">Vorwerker Diakonie</div><div class="cl-meta">Germany · apsolut · Jul 2022</div></div>
+                <div class="cl-item"><div class="cl-nm">Coras Iompair Éireann</div><div class="cl-meta">Ireland</div></div>
+                <div class="cl-item"><div class="cl-nm">Groep Gent / District09</div><div class="cl-meta">Belgium · Delaware · Sep 2022</div></div>
+                <div class="cl-item"><div class="cl-nm">OESIA Networks</div><div class="cl-meta">Spain · Seidor · Oct 2022</div></div>
+                <div class="cl-item"><div class="cl-nm">Jacob Purchasing</div><div class="cl-meta">Germany</div></div>
+                <div class="cl-item"><div class="cl-nm">Gerresheimer</div><div class="cl-meta">Germany</div></div>
+                <div class="cl-item"><div class="cl-nm">PILATUS Aircraft</div><div class="cl-meta">Switzerland · apsolut · Apr 2023</div></div>
+                <div class="cl-item"><div class="cl-nm">Stadtwerke Aalen</div><div class="cl-meta">Germany · Deutsche BC · May 2023</div></div>
+                <div class="cl-item"><div class="cl-nm">Azersun Holding</div><div class="cl-meta">Azerbaijan · FIZ + apsolut · Jun 2023</div></div>
+                <div class="cl-item"><div class="cl-nm">ZENTIS</div><div class="cl-meta">Germany</div></div>
+                <div class="cl-item"><div class="cl-nm">DMK Milchkontor</div><div class="cl-meta">Germany · apsolut · Jul 2023</div></div>
+                <div class="cl-item"><div class="cl-nm">Hogeschool van Amsterdam</div><div class="cl-meta">Netherlands · McCoy · Aug 2023</div></div>
+                <div class="cl-item"><div class="cl-nm">Pfeiffer Vacuum</div><div class="cl-meta">Germany · MHP · Sep 2023</div></div>
+                <div class="cl-item"><div class="cl-nm">UvA / HvA</div><div class="cl-meta">Netherlands</div></div>
+                <div class="cl-item"><div class="cl-nm">Hamburger Wasserwerke</div><div class="cl-meta">Germany · Eviden · Oct 2024</div></div>
+                <div class="cl-item"><div class="cl-nm">Tod's Group</div><div class="cl-meta">Italy</div></div>
+                <div class="cl-item"><div class="cl-nm">Amer Sports Shanghai</div><div class="cl-meta">China · Apr 2025</div></div>
+                <div class="cl-item"><div class="cl-nm">Abdi Ibrahim</div><div class="cl-meta">Turkey · FIZ · May 2025</div></div>
+                <div class="cl-item"><div class="cl-nm">Stadt Dortmund</div><div class="cl-meta">Germany · apsolut · Sep 2025</div></div>
+                <div class="cl-item"><div class="cl-nm">Steampunk</div><div class="cl-meta">USA</div></div>
+                <div class="cl-item"><div class="cl-nm">AGRAVIS</div><div class="cl-meta">Germany</div></div>
+                <div class="cl-item"><div class="cl-nm">HUNOSA</div><div class="cl-meta">Spain · Inetum</div></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- AWARDS -->
 <div id="awards">
     <div class="sw">
         <div class="s-lbl r">Recognition</div>
         <h2 class="s-ttl r d1">CERTS &amp;<br>AWARDS</h2>
         <div class="aw-grid">
-        <div class="aw-grid">
-            <div class="aw-card r d1"><div class="aw-yr">2025</div><div class="aw-by">SAP · Celebrate Award</div><div class="aw-name">SAP "Celebrate" Award — MKS Instruments</div><div class="aw-desc">"Despite the complexity and high demands, you consistently went above and beyond — professionalism, patience, and a solution-oriented mindset. Your ability to build trust, deliver value, and navigate challenges with grace made a meaningful impact." — CSP Tanner Astorina · Jul 2025</div></div>
-            <div class="aw-card r d2"><div class="aw-yr">2025</div><div class="aw-by">SAP · ESA Nomination #5</div><div class="aw-name">Exceptional Service — PepsiCo · Perfect 7/7</div><div class="aw-desc">Perfect 7/7 across all 6 VOC dimensions. "Solution-oriented approach. Quick turnaround. Technical expertise. Professionalism." Longest customer testimonial received in the portfolio. — Nov 2025</div></div>
-            <div class="aw-card r d3"><div class="aw-yr">2024</div><div class="aw-by">SAP · ESA Nomination #4</div><div class="aw-name">Exceptional Service — LEG Management · Perfect 7/7</div><div class="aw-desc">Perfect 7/7 VOC across all dimensions. "Great job in interacting with customer and internal team, happy to see you growing." — Rashmi Mulimani, Manager · Mar 2024</div></div>
-            <div class="aw-card r d1"><div class="aw-yr">2023</div><div class="aw-by">SAP · ESA Nomination #3</div><div class="aw-name">Exceptional Service — ZENTIS Holding</div><div class="aw-desc">Near-perfect VOC scores (6.7 avg). "That is a very happy partner, great job both!" — Morten Rasmussen. "Yet another VOC!" — Keshava. Featured in PTS Newsletter Dec 2023.</div></div>
-            <div class="aw-card r d2"><div class="aw-yr">2023</div><div class="aw-by">SAP · ESA Nomination #2</div><div class="aw-name">Exceptional Service — Gerresheimer AG</div><div class="aw-desc">"Kudos to Ayushman for showing great technical expertise during the complete project tenure." "Congratulations on this successful delivery!" — Gauthier Vanesse, Director. Featured in PTS Newsletter Sep 2023.</div></div>
-            <div class="aw-card r d3"><div class="aw-yr">2025</div><div class="aw-by">SAP · Customer Referenceability</div><div class="aw-name">Reference Customer — iQibt / Gemeente Amsterdam</div><div class="aw-desc">Customer agreed to serve as an official SAP reference — one of the hardest customer outcomes to earn. 7/7 CES score. "Congrats on the great results and Referenceability!" — Gauthier Vanesse, Director · Jan 2025</div></div>
+            <div class="aw-card r d1"><div class="aw-yr">2023</div><div class="aw-by">SAP · ESA Nomination #1</div><div class="aw-name">First Exceptional Service Nomination — Feb 2023</div><div class="aw-desc">Named in VOC survey in the very first year. VP Daryl D'Angelo: "Well-deserved recognition of your dedication and excellence." — Featured in PTS Newsletter Mar 2023</div></div>
+            <div class="aw-card r d1"><div class="aw-yr">2025</div><div class="aw-by">SAP · Celebrate Award</div><div class="aw-name">SAP "Celebrate" Award — MKS Instruments</div><div class="aw-desc">"Your ability to build trust, deliver value, and navigate challenges with grace made a meaningful impact." — Tanner Astorina, CSP · Jul 2025</div></div>
+            <div class="aw-card r d2"><div class="aw-yr">2025</div><div class="aw-by">SAP · ESA Nomination #5</div><div class="aw-name">Exceptional Service — PepsiCo · Perfect 7/7</div><div class="aw-desc">Perfect 7/7 across all VOC dimensions. "Solution-oriented. Quick turnaround. Technical expertise. Professionalism." — Nov 2025</div></div>
+            <div class="aw-card r d3"><div class="aw-yr">2024</div><div class="aw-by">SAP · ESA Nomination #4</div><div class="aw-name">Exceptional Service — LEG Management · Perfect 7/7</div><div class="aw-desc">Perfect 7/7 VOC. "Great job in interacting with customer and internal team, happy to see you growing." — Rashmi Mulimani, Manager · Mar 2024</div></div>
+            <div class="aw-card r d1"><div class="aw-yr">2023</div><div class="aw-by">SAP · ESA Nomination #3</div><div class="aw-name">Exceptional Service — ZENTIS Holding</div><div class="aw-desc">Near-perfect VOC scores (6.7 avg). "That is a very happy partner, great job both!" — Morten Rasmussen · Featured in PTS Newsletter Dec 2023</div></div>
+            <div class="aw-card r d2"><div class="aw-yr">2023</div><div class="aw-by">SAP · ESA Nomination #2</div><div class="aw-name">Exceptional Service — Gerresheimer AG</div><div class="aw-desc">"Kudos to Ayushman for showing great technical expertise during the complete project tenure." — Gauthier Vanesse, Director · Featured in PTS Newsletter Sep 2023</div></div>
+            <div class="aw-card r d3"><div class="aw-yr">2025</div><div class="aw-by">SAP · Customer Referenceability</div><div class="aw-name">Reference Customer — iQibt / Gemeente Amsterdam</div><div class="aw-desc">Customer agreed to serve as an official SAP reference. 7/7 CES score. "Congrats on the great results and Referenceability!" — Gauthier Vanesse, Director · Jan 2025</div></div>
         </div>
+    </div>
+</div>
+
+<!-- VOC SCORECARD -->
+<div id="voc">
+    <div class="sw">
+        <div class="s-lbl r">Proof Points</div>
+        <h2 class="s-ttl r d2">VOC<br>SCORECARD</h2>
+        <p style="font-size:.85rem;color:var(--dim);line-height:1.8;max-width:680px;margin-bottom:32px;">6 formal Voice of Customer surveys. 4 with a perfect 7/7 Customer Effort Score. Each survey triggering an ESA nomination or referenceability outcome.</p>
+        <div class="voc-wrap r d1">
+        <table class="voc-tbl">
+            <thead>
+                <tr>
+                    <th>Customer</th><th>Go-Live</th><th>CES</th><th>Duration</th><th>Guidance</th><th>Expertise</th><th>Requirements</th><th>Empowerment</th><th>Timeliness</th><th>ESA</th><th>Ref</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>PepsiCo</strong> (PGCS)</td><td>Nov 2025</td><td class="vsc-7">7</td><td class="vsc-7">7</td><td class="vsc-7">7</td><td class="vsc-7">7</td><td class="vsc-7">7</td><td class="vsc-7">7</td><td class="vsc-7">7</td><td><span class="voc-pill voc-esa">ESA #5</span></td><td class="vsc-d">—</td></tr>
+                <tr><td><strong>LEG Management</strong></td><td>Jan 2024</td><td class="vsc-7">7</td><td class="vsc-7">7</td><td class="vsc-7">7</td><td class="vsc-7">7</td><td class="vsc-7">7</td><td class="vsc-7">7</td><td class="vsc-7">7</td><td><span class="voc-pill voc-esa">ESA #4</span></td><td class="vsc-d">—</td></tr>
+                <tr><td><strong>ZENTIS Holding</strong></td><td>Nov 2023</td><td class="vsc-6">6</td><td class="vsc-7">7</td><td class="vsc-7">7</td><td class="vsc-7">7</td><td class="vsc-7">7</td><td class="vsc-7">7</td><td class="vsc-7">7</td><td><span class="voc-pill voc-esa">ESA #3</span></td><td class="vsc-d">—</td></tr>
+                <tr><td><strong>iQibt</strong> (Gemeente Amsterdam)</td><td>Jan 2025</td><td class="vsc-7">7</td><td class="vsc-d">—</td><td class="vsc-6">6</td><td class="vsc-7">7</td><td class="vsc-6">6</td><td class="vsc-6">6</td><td class="vsc-7">7</td><td class="vsc-d">—</td><td><span class="voc-pill voc-ref">Referenceability</span></td></tr>
+                <tr><td><strong>UvA</strong> (McCoy Partners)</td><td>Oct 2024</td><td class="vsc-7">7</td><td class="vsc-7">7</td><td class="vsc-6">6</td><td class="vsc-6">6</td><td class="vsc-6">6</td><td class="vsc-6">6</td><td class="vsc-7">7</td><td class="vsc-d">—</td><td class="vsc-d">—</td></tr>
+                <tr><td><strong>Gerresheimer AG</strong></td><td>Aug 2023</td><td class="vsc-6">6</td><td class="vsc-6">6</td><td class="vsc-6">6</td><td class="vsc-6">6</td><td class="vsc-7">7</td><td class="vsc-6">6</td><td class="vsc-6">6</td><td><span class="voc-pill voc-esa">ESA #2</span></td><td class="vsc-d">—</td></tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+</div>
+
+<!-- SI PARTNERS -->
+<div id="partners">
+    <div class="sw">
+        <div class="s-lbl r">Ecosystem</div>
+        <h2 class="s-ttl r d3">SI PARTNER<br>NETWORK</h2>
+        <p style="font-size:.85rem;color:var(--dim);line-height:1.8;max-width:680px;margin-bottom:32px;">Collaborated with 20+ system integrators and consulting firms across global deployments spanning EMEA, NAMER, and APAC.</p>
+        <div class="pt-chips r d1">
+            <span class="pt-chip">Accenture</span>
+            <span class="pt-chip">apsolut · SAP Partner of the Year</span>
+            <span class="pt-chip">SEIDOR</span>
+            <span class="pt-chip">Incospro</span>
+            <span class="pt-chip">valantic</span>
+            <span class="pt-chip">Wipro</span>
+            <span class="pt-chip">Emergys</span>
+            <span class="pt-chip">TCS</span>
+            <span class="pt-chip">McCoy &amp; Partners</span>
+            <span class="pt-chip">CNT Management Consulting</span>
+            <span class="pt-chip">Axians</span>
+            <span class="pt-chip">Avvale</span>
+            <span class="pt-chip">Acxias</span>
+            <span class="pt-chip">BFE</span>
+            <span class="pt-chip">Deutsche BC</span>
+            <span class="pt-chip">Delaware Consulting</span>
+            <span class="pt-chip">FIZ Bilişim</span>
+            <span class="pt-chip">Inetum</span>
+            <span class="pt-chip">MHP (Porsche)</span>
+            <span class="pt-chip">Eviden (Atos)</span>
+            <span class="pt-chip">Ernst &amp; Young</span>
+            <span class="pt-chip">Premikati</span>
         </div>
     </div>
 </div>
@@ -677,6 +871,47 @@
             <div class="aw-card r d3" style="border-color:rgba(255,77,0,.15);">
                 <div class="aw-by">PepsiCo · on realm migration · Nov 2025</div>
                 <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"Historically this process has been prone to issues, but under his execution it was completed smoothly without errors. Both Test and Prod realm enablement were completed earlier than planned."</div>
+            </div>
+            <div class="aw-card r d1" style="border-color:rgba(255,77,0,.15);">
+                <div class="aw-by">Rashmi Mulimani, Manager · MKS · Jul 2025</div>
+                <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"Very proud of how you have grown in the team and have been handling difficult customers and situations so professionally. Thank you for your excellence."</div>
+            </div>
+            <div class="aw-card r d2" style="border-color:rgba(255,77,0,.15);">
+                <div class="aw-by">Deepthi Subramanian, Technical Consultant · 4th Anniversary · Feb 2026</div>
+                <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"You've truly grown into one of our finest consultants. The maturity and experience you demonstrate in your work reflect well beyond your years of experience."</div>
+            </div>
+            <div class="aw-card r d3" style="border-color:rgba(255,77,0,.15);">
+                <div class="aw-by">Judit Zsigmond, SAP Colleague · Acquedotto Pugliese · 2024</div>
+                <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"Even if Ayushman did an outstanding and brilliant job on the Acquedotto project..."</div>
+            </div>
+            <div class="aw-card r d1" style="border-color:rgba(255,77,0,.15);">
+                <div class="aw-by">Aniketh Paul, Peer Colleague · PepsiCo PGCS · Nov 2025</div>
+                <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"Kudos to Ayushman for showing great technical expertise during the complete project tenure."</div>
+            </div>
+            <div class="aw-card r d2" style="border-color:rgba(255,77,0,.15);">
+                <div class="aw-by">Alok Sinha, Manager · PepsiCo VOC · Nov 2025</div>
+                <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"Both of you have made a huge positive impact on the customer satisfaction and the overall deployment, and it shows in the appreciation the customer has given."</div>
+            </div>
+            <div class="aw-card r d3" style="border-color:rgba(255,77,0,.15);">
+                <div class="aw-by">Gauthier Vanesse, Director Global Delivery · Gerresheimer · Aug 2023</div>
+                <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"Congratulations on this successful delivery and nomination! Thank you for the great job and continuous efforts!"</div>
+            </div>
+            <div class="aw-card r d1" style="border-color:rgba(255,77,0,.15);">
+                <div class="aw-by">Rashmi Mulimani, Manager · 4th Anniversary · Feb 2026</div>
+                <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"Your efforts in hosting the global knowledge-sharing sessions is impressive. Thank you for your commitment to our customer success and team collaboration."</div>
+            </div>
+            <div class="aw-card r d2" style="border-color:rgba(255,77,0,.15);">
+                <div class="aw-by">Gauthier Vanesse, Director Global Delivery · iQibt · Jan 2025</div>
+                <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"Congrats on the great results and Referenceability! Great job!"</div>
+            </div>
+            <div class="aw-card r d3" style="border-color:rgba(255,77,0,.15);">
+                <div class="aw-by">Narendra Kumar Javare Gowda, STQC (Govt. of India) · Sep 2026</div>
+                <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"Appreciate your support and follow-up with relevant stakeholders in resolving the issue."</div>
+            </div>
+            <div class="aw-card r d1" style="border-color:rgba(255,77,0,.15);">
+                <div class="aw-by">Rashmi Mulimani, Manager · LEG Management VOC · Mar 2024</div>
+                <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"Great job in interacting with customer and internal team, happy to see you growing."</div>
+            </div>
             </div>
         </div>
     </div>
@@ -733,7 +968,7 @@ document.addEventListener('mousemove', e => {
     ring.style.left=rx+'px'; ring.style.top=ry+'px';
     requestAnimationFrame(fr);
 })();
-document.querySelectorAll('a,.ei,.pr-card,.aw-card,.sk-col,.ed-card').forEach(el=>{
+document.querySelectorAll('a,.ei,.pr-card,.aw-card,.sk-col,.ed-card,.cl-item,.cat-hdr,.pt-chip').forEach(el=>{
     el.addEventListener('mouseenter',()=>document.body.classList.add('ch'));
     el.addEventListener('mouseleave',()=>document.body.classList.remove('ch'));
 });
