@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayushman Varma — SAP Consultant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:     #070709;
+            --fg:     #F0ECE4;
+            --dim:    #5A5760;
+            --orange: #FF4D00;
+            --border: rgba(240,236,228,0.07);
+            --glass:  rgba(240,236,228,0.025);
+            --display:'Bebas Neue', 'Arial Black', sans-serif;
+            --body:   'Inter', system-ui, sans-serif;
+            --mono:   'JetBrains Mono', monospace;
+        }
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background: var(--bg);
+            color: var(--fg);
+            font-family: var(--body);
+            overflow-x: hidden;
+            cursor: none;
+        }
+        /* grain */
+        body::after {
+            content:'';
+            position:fixed; inset:0;
+            background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)'/%3E%3C/svg%3E");
+            opacity:.035; pointer-events:none; z-index:9001;
+        }
+
+        /* ── GLOW ── */
+        #glow {
+            position:fixed; width:700px; height:700px; border-radius:50%;
+            background:radial-gradient(circle, rgba(255,77,0,0.07) 0%, transparent 68%);
+            pointer-events:none; transform:translate(-50%,-50%); z-index:0;
+        }
+
+        /* ── CURSOR ── */
+        #cur {
+            position:fixed; width:8px; height:8px;
+            background:var(--fg); border-radius:50%;
+            pointer-events:none; z-index:9999;
+            transform:translate(-50%,-50%);
+            mix-blend-mode:difference;
+            transition:width .2s,height .2s;
+        }
+        #cur-ring {
+            position:fixed; width:38px; height:38px;
+            border:1px solid rgba(240,236,228,.25); border-radius:50%;
+            pointer-events:none; z-index:9998;
+            transform:translate(-50%,-50%);
+            transition:width .25s,height .25s,opacity .25s;
+        }
+        body.ch #cur { width:64px; height:64px; }
+        body.ch #cur-ring { width:0; height:0; opacity:0; }
+
+        /* ── LOADER (curtain split) ── */
+        #loader { position:fixed; inset:0; z-index:9000; pointer-events:none; }
+        .crt {
+            position:absolute; left:0; right:0; height:50%;
+            background:var(--bg);
+            transition:transform 1s cubic-bezier(.76,0,.24,1);
+            display:flex; align-items:center; justify-content:center;
+        }
+        .crt-t { top:0; align-items:flex-end; padding-bottom:2px; }
+        .crt-b { bottom:0; align-items:flex-start; padding-top:2px; }
+        .crt-lbl {
+            font-family:var(--display); font-size:clamp(3rem,8vw,6rem);
+            letter-spacing:.06em; color:var(--fg);
+            opacity:0; animation:lbl-in .5s ease .3s forwards;
+        }
+        .crt-lbl em { color:var(--orange); font-style:normal; }
+        @keyframes lbl-in { from{opacity:0;transform:scale(.96)} to{opacity:1;transform:scale(1)} }
+        #loader.open .crt-t { transform:translateY(-100%); }
+        #loader.open .crt-b { transform:translateY(100%); }
+
+        /* ── NAV ── */
+        nav {
+            position:fixed; top:0; left:0; right:0; z-index:200;
+            padding:28px 60px;
+            display:flex; justify-content:space-between; align-items:center;
+            transition:padding .3s, background .3s;
+        }
+        nav.stuck {
+            padding:16px 60px;
+            background:rgba(7,7,9,.88);
+            backdrop-filter:blur(20px);
+            border-bottom:1px solid var(--border);
+        }
+        .n-logo {
+            font-family:var(--display); font-size:1.6rem;
+            letter-spacing:.1em; color:var(--fg); text-decoration:none;
+        }
+        .n-logo em { color:var(--orange); font-style:normal; }
+        .n-links { list-style:none; display:flex; gap:36px; }
+        .n-links a {
+            font-family:var(--mono); font-size:10px;
+            letter-spacing:.18em; text-transform:uppercase;
+            color:var(--dim); text-decoration:none; transition:color .2s;
+        }
+        .n-links a:hover { color:var(--fg); }
+
+        /* ── HERO ── */
+        #hero {
+            min-height:100vh;
+            display:flex; flex-direction:column; justify-content:flex-end;
+            padding:0 60px 60px;
+            position:relative; overflow:hidden;
+        }
+        .h-status {
+            position:absolute; top:110px; left:60px;
+            font-family:var(--mono); font-size:10px;
+            letter-spacing:.22em; text-transform:uppercase; color:var(--dim);
+            display:flex; align-items:center; gap:10px;
+            opacity:0; animation:fup .6s ease 2.3s forwards;
+        }
+        .h-status::before {
+            content:''; width:6px; height:6px;
+            background:var(--orange); border-radius:50%;
+            animation:blink 2s ease infinite;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.25} }
+
+        .h-side {
+            position:absolute; top:50%; right:60px;
+            transform:translateY(-50%);
+            font-family:var(--mono); font-size:9px;
+            letter-spacing:.28em; text-transform:uppercase; color:var(--dim);
+            writing-mode:vertical-rl;
+            opacity:0; animation:fup .6s ease 2.5s forwards;
+        }
+
+        .h-name {
+            font-family:var(--display);
+            font-size:clamp(5.5rem,15vw,15rem);
+            line-height:.88; letter-spacing:-.01em;
+            margin-bottom:28px;
+        }
+        .h-name .wrd { display:block; overflow:hidden; }
+        .h-name .wrd span {
+            display:block; transform:translateY(105%);
+            animation:wup 1s cubic-bezier(.16,1,.3,1) forwards;
+        }
+        .h-name .wrd:nth-child(1) span { animation-delay:1.7s; }
+        .h-name .wrd:nth-child(2) span {
+            animation-delay:1.85s;
+            color:transparent;
+            -webkit-text-stroke:2px rgba(240,236,228,.28);
+        }
+        @keyframes wup { to{ transform:translateY(0); } }
+
+        .h-rule {
+            width:0; height:2px;
+            background:var(--orange);
+            margin-bottom:24px;
+            animation:xpnd .8s cubic-bezier(.16,1,.3,1) 2.1s forwards;
+        }
+        @keyframes xpnd { to{ width:min(560px,75%); } }
+
+        .h-foot {
+            display:flex; justify-content:space-between; align-items:flex-end;
+            opacity:0; animation:fup .6s ease 2.5s forwards;
+        }
+        .h-role { font-size:.95rem; color:var(--dim); font-weight:300; letter-spacing:.04em; }
+        .h-role strong { color:var(--fg); font-weight:500; }
+        .h-scroll {
+            display:flex; align-items:center; gap:12px;
+            font-family:var(--mono); font-size:9px;
+            letter-spacing:.22em; text-transform:uppercase; color:var(--dim);
+        }
+        .h-bar {
+            width:1px; height:48px;
+            background:linear-gradient(to bottom, transparent, var(--dim));
+            animation:bob 1.8s ease infinite;
+        }
+        @keyframes bob { 0%,100%{opacity:.3} 50%{opacity:1} }
+        @keyframes fup { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+        /* ── MARQUEE ── */
+        .mq { background:var(--orange); overflow:hidden; padding:13px 0; display:flex; }
+        .mq-track {
+            display:flex; animation:mq-run 22s linear infinite;
+            white-space:nowrap; flex-shrink:0;
+        }
+        .mq-track.rev { animation-direction:reverse; }
+        .mq-t {
+            font-family:var(--display); font-size:1.45rem;
+            letter-spacing:.12em; color:var(--bg); padding-right:56px;
+        }
+        .mq-t em { color:rgba(7,7,9,.35); font-style:normal; margin-right:56px; }
+        @keyframes mq-run { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+        /* ── SECTION WRAPPER ── */
+        .sw { max-width:1200px; margin:0 auto; padding:120px 60px; }
+        .s-lbl {
+            font-family:var(--mono); font-size:10px;
+            letter-spacing:.3em; text-transform:uppercase; color:var(--orange);
+            display:flex; align-items:center; gap:14px; margin-bottom:20px;
+        }
+        .s-lbl::before { content:''; width:26px; height:1px; background:var(--orange); }
+        .s-ttl {
+            font-family:var(--display);
+            font-size:clamp(3rem,6vw,5.5rem);
+            line-height:1; letter-spacing:.02em; margin-bottom:64px;
+        }
+
+        /* ── ABOUT ── */
+        .ab-grid { display:grid; grid-template-columns:1fr 1.5fr; gap:80px; align-items:start; }
+        .ab-big { font-family:var(--display); font-size:clamp(5rem,10vw,9rem); color:var(--orange); line-height:.85; margin-bottom:12px; }
+        .ab-sub { font-family:var(--mono); font-size:10px; letter-spacing:.25em; text-transform:uppercase; color:var(--dim); margin-bottom:40px; }
+        .ab-rows { display:flex; flex-direction:column; gap:0; }
+        .ab-row {
+            display:flex; justify-content:space-between; align-items:baseline;
+            border-bottom:1px solid var(--border); padding:14px 0;
+        }
+        .ab-row-k { font-size:.8rem; color:var(--dim); letter-spacing:.04em; }
+        .ab-row-v { font-family:var(--mono); font-size:.82rem; color:var(--fg); }
+        .ab-stmt {
+            font-size:clamp(1.2rem,2vw,1.55rem); font-weight:300;
+            line-height:1.65; color:var(--fg); margin-bottom:28px;
+        }
+        .ab-stmt strong { color:var(--orange); font-weight:500; }
+        .ab-body { font-size:.93rem; line-height:1.95; color:var(--dim); margin-bottom:40px; }
+        .ab-chips { display:flex; flex-wrap:wrap; gap:7px; }
+        .chip {
+            padding:7px 14px; border:1px solid var(--border); border-radius:2px;
+            font-family:var(--mono); font-size:10px; letter-spacing:.1em;
+            color:var(--dim); text-transform:uppercase;
+            transition:border-color .2s,color .2s;
+        }
+        .chip:hover { border-color:var(--orange); color:var(--orange); }
+
+        /* ── EXPERIENCE ── */
+        .exp-list { display:flex; flex-direction:column; }
+        .ei {
+            border-top:1px solid var(--border);
+            padding:30px 0;
+            display:grid; grid-template-columns:72px 1fr auto;
+            gap:28px; align-items:start;
+            cursor:none; position:relative;
+        }
+        .ei:last-child { border-bottom:1px solid var(--border); }
+        .ei::after {
+            content:''; position:absolute;
+            left:0; right:0; bottom:-1px; height:1px;
+            background:var(--orange);
+            transform:scaleX(0); transform-origin:left;
+            transition:transform .45s cubic-bezier(.16,1,.3,1);
+        }
+        .ei:hover::after { transform:scaleX(1); }
+        .ei-n {
+            font-family:var(--display); font-size:2.8rem;
+            color:rgba(240,236,228,.1); line-height:1;
+            transition:color .2s;
+        }
+        .ei:hover .ei-n { color:var(--orange); }
+        .ei-co { font-family:var(--mono); font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--orange); margin-bottom:5px; }
+        .ei-role { font-size:1.15rem; font-weight:500; margin-bottom:3px; }
+        .ei-loc { font-size:.8rem; color:var(--dim); margin-bottom:0; }
+        .ei-body {
+            max-height:0; overflow:hidden;
+            transition:max-height .5s cubic-bezier(.16,1,.3,1);
+        }
+        .ei.open .ei-body { max-height:360px; }
+        .ei-buls { list-style:none; display:flex; flex-direction:column; gap:8px; padding-top:14px; }
+        .ei-buls li {
+            font-size:.86rem; color:var(--dim);
+            padding-left:20px; position:relative; line-height:1.75;
+        }
+        .ei-buls li::before { content:'—'; position:absolute; left:0; color:var(--orange); font-size:.75rem; }
+        .ei-r { text-align:right; }
+        .ei-date { font-family:var(--mono); font-size:10px; color:var(--dim); letter-spacing:.06em; white-space:nowrap; }
+        .ei-tog {
+            width:26px; height:26px; border:1px solid var(--border); border-radius:50%;
+            display:flex; align-items:center; justify-content:center;
+            font-size:16px; line-height:1; color:var(--dim);
+            margin-top:8px; margin-left:auto;
+            transition:all .2s;
+        }
+        .ei.open .ei-tog { border-color:var(--orange); color:var(--orange); transform:rotate(45deg); }
+
+        /* ── SKILLS ── */
+        .sk-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:2px; }
+        .sk-col {
+            background:var(--glass); border:1px solid var(--border);
+            padding:28px; transition:background .3s,border-color .3s;
+        }
+        .sk-col:hover { background:rgba(255,77,0,.04); border-color:rgba(255,77,0,.22); }
+        .sk-head { font-family:var(--display); font-size:1.5rem; letter-spacing:.05em; margin-bottom:20px; }
+        .sk-ul { list-style:none; display:flex; flex-direction:column; gap:10px; }
+        .sk-ul li {
+            font-size:.8rem; color:var(--dim); font-family:var(--mono);
+            display:flex; align-items:center; gap:9px;
+        }
+        .sk-ul li::before { content:''; width:3px; height:3px; background:var(--orange); border-radius:50%; flex-shrink:0; }
+
+        /* ── PROJECTS ── */
+        .pr-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; }
+        .pr-card {
+            background:var(--glass); border:1px solid var(--border);
+            padding:32px; position:relative; overflow:hidden;
+            transition:border-color .3s;
+            transform-style:preserve-3d;
+        }
+        .pr-card::before {
+            content:''; position:absolute; inset:0;
+            background:linear-gradient(135deg,rgba(255,77,0,.07),transparent 55%);
+            opacity:0; transition:opacity .3s;
+        }
+        .pr-card:hover { border-color:rgba(255,77,0,.38); }
+        .pr-card:hover::before { opacity:1; }
+        .pr-n { font-family:var(--display); font-size:5rem; color:rgba(240,236,228,.05); line-height:1; margin-bottom:-4px; }
+        .pr-tag { font-family:var(--mono); font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:var(--orange); margin-bottom:10px; }
+        .pr-name { font-size:1.05rem; font-weight:600; margin-bottom:10px; line-height:1.3; }
+        .pr-desc { font-size:.84rem; color:var(--dim); line-height:1.85; margin-bottom:22px; }
+        .pr-pills { display:flex; flex-wrap:wrap; gap:5px; }
+        .pr-pill { padding:3px 9px; background:rgba(255,255,255,.04); border-radius:2px; font-family:var(--mono); font-size:9px; letter-spacing:.06em; color:var(--dim); text-transform:uppercase; }
+
+        /* ── AWARDS ── */
+        .aw-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:2px; }
+        .aw-card { border:1px solid var(--border); padding:28px; transition:border-color .3s; }
+        .aw-card:hover { border-color:rgba(255,77,0,.3); }
+        .aw-yr { font-family:var(--display); font-size:3.5rem; color:rgba(240,236,228,.07); line-height:1; margin-bottom:4px; }
+        .aw-by { font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--orange); margin-bottom:8px; }
+        .aw-name { font-size:.95rem; font-weight:500; line-height:1.4; margin-bottom:8px; }
+        .aw-desc { font-size:.8rem; color:var(--dim); line-height:1.75; }
+
+        /* ── EDUCATION ── */
+        .ed-card {
+            border:1px solid var(--border); padding:36px;
+            display:grid; grid-template-columns:1fr auto;
+            gap:40px; align-items:start;
+            transition:border-color .3s;
+        }
+        .ed-card:hover { border-color:rgba(255,77,0,.3); }
+        .ed-school { font-size:1.3rem; font-weight:600; margin-bottom:6px; }
+        .ed-deg { font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--orange); margin-bottom:14px; }
+        .ed-body { font-size:.86rem; color:var(--dim); line-height:1.9; }
+        .ed-yr { font-family:var(--display); font-size:4rem; color:rgba(240,236,228,.1); text-align:right; line-height:1; }
+
+        /* ── CONTACT ── */
+        .ct-wrap { text-align:center; }
+        .ct-big {
+            font-family:var(--display);
+            font-size:clamp(4rem,13vw,12rem);
+            line-height:.88; letter-spacing:.02em; margin-bottom:28px;
+        }
+        .ct-big .ghost { color:transparent; -webkit-text-stroke:2px rgba(240,236,228,.18); }
+        .ct-sub { font-size:1rem; color:var(--dim); max-width:420px; margin:0 auto 48px; line-height:1.95; font-weight:300; }
+        .ct-row { display:flex; justify-content:center; flex-wrap:wrap; gap:10px; }
+        .cpill {
+            display:flex; align-items:center; gap:9px;
+            padding:13px 22px; border:1px solid var(--border); border-radius:2px;
+            text-decoration:none; color:var(--dim);
+            font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+            transition:all .2s;
+        }
+        .cpill:hover { border-color:var(--orange); color:var(--orange); background:rgba(255,77,0,.04); }
+
+        /* ── FOOTER ── */
+        footer {
+            border-top:1px solid var(--border);
+            padding:26px 60px;
+            display:flex; justify-content:space-between; align-items:center;
+            max-width:1200px; margin:0 auto;
+        }
+        footer span { font-family:var(--mono); font-size:10px; color:var(--dim); letter-spacing:.08em; }
+
+        /* ── REVEAL ── */
+        .r { opacity:0; transform:translateY(30px); transition:opacity .8s ease,transform .8s cubic-bezier(.16,1,.3,1); }
+        .r.on { opacity:1; transform:none; }
+        .d1{transition-delay:.08s} .d2{transition-delay:.16s} .d3{transition-delay:.24s} .d4{transition-delay:.32s}
+
+        /* ── RESPONSIVE ── */
+        @media(max-width:900px){
+            nav,#hero,.sw{padding-left:24px;padding-right:24px;}
+            nav.stuck{padding-left:24px;padding-right:24px;}
+            .n-links{display:none;}
+            .h-name{font-size:clamp(4rem,18vw,9rem);}
+            .h-side{display:none;}
+            .ab-grid{grid-template-columns:1fr;gap:48px;}
+            .ei{grid-template-columns:48px 1fr;}
+            .ei-r{display:none;}
+            .sk-grid{grid-template-columns:1fr 1fr;}
+            .pr-grid{grid-template-columns:1fr;}
+            .aw-grid{grid-template-columns:1fr 1fr;}
+            .ed-card{grid-template-columns:1fr;}
+            footer{flex-direction:column;gap:8px;text-align:center;padding:20px 24px;}
+        }
+        @media(max-width:560px){
+            .sk-grid,.aw-grid{grid-template-columns:1fr;}
+            .ct-big{font-size:3.5rem;}
+        }
+    </style>
+</head>
+<body>
+
+<div id="glow"></div>
+<div id="cur"></div>
+<div id="cur-ring"></div>
+
+<!-- LOADER -->
+<div id="loader">
+    <div class="crt crt-t"><div class="crt-lbl">AV<em>.</em></div></div>
+    <div class="crt crt-b"></div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+    <a href="#hero" class="n-logo">AV<em>.</em></a>
+    <ul class="n-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Work</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+    <div class="h-status">Available · Bengaluru, India</div>
+    <div class="h-side">SAP Consultant · Technical Lead · EMEA · NAMER</div>
+    <div class="h-name">
+        <span class="wrd"><span>AYUSHMAN</span></span>
+        <span class="wrd"><span>VARMA.</span></span>
+    </div>
+    <div class="h-rule"></div>
+    <div class="h-foot">
+        <div class="h-role"><strong>Consultant</strong> — SAP Ariba · Technical Lead · Shared Services</div>
+        <div class="h-scroll"><div class="h-bar"></div>Scroll</div>
+    </div>
+</section>
+
+<!-- MARQUEE 1 -->
+<div class="mq">
+    <div class="mq-track">
+        <span class="mq-t">SAP ARIBA <em>✦</em> CONSULTANT <em>✦</em> TECHNICAL LEAD <em>✦</em> BENGALURU <em>✦</em> EMEA <em>✦</em> NAMER <em>✦</em> B&amp;I MODULES <em>✦</em> PROCUREMENT <em>✦</em></span>
+        <span class="mq-t">SAP ARIBA <em>✦</em> CONSULTANT <em>✦</em> TECHNICAL LEAD <em>✦</em> BENGALURU <em>✦</em> EMEA <em>✦</em> NAMER <em>✦</em> B&amp;I MODULES <em>✦</em> PROCUREMENT <em>✦</em></span>
+    </div>
+</div>
+
+<!-- ABOUT -->
+<div id="about">
+    <div class="sw">
+        <div class="s-lbl r">About</div>
+        <div class="ab-grid">
+            <div class="r d1">
+                <div class="ab-big">07+</div>
+                <div class="ab-sub">Years of experience</div>
+                <div class="ab-rows">
+                    <div class="ab-row"><span class="ab-row-k">Current</span><span class="ab-row-v">SAP Ariba</span></div>
+                    <div class="ab-row"><span class="ab-row-k">Location</span><span class="ab-row-v">Bengaluru, India</span></div>
+                    <div class="ab-row"><span class="ab-row-k">Regions</span><span class="ab-row-v">EMEA · NAMER</span></div>
+                    <div class="ab-row"><span class="ab-row-k">Education</span><span class="ab-row-v">B.Tech CS · VIT</span></div>
+                    <div class="ab-row"><span class="ab-row-k">CGPA</span><span class="ab-row-v">8.45 / 10</span></div>
+                </div>
+            </div>
+            <div class="r d2">
+                <p class="ab-stmt">I deploy <strong>SAP Ariba solutions</strong> that power enterprise procurement — configuring, customising, and delivering B&amp;I modules across global clients with precision.</p>
+                <p class="ab-body">With a B.Tech in Computer Science from VIT and hands-on experience across SAP Ariba and Nissan Digital, I bring a rare mix of software engineering depth and consulting delivery expertise. I've led successful deployments for enterprise clients across EMEA and NAMER, earning SAP recognition for exceptional service two years running.</p>
+                <div class="ab-chips">
+                    <span class="chip">SAP Ariba</span>
+                    <span class="chip">B&amp;I Config</span>
+                    <span class="chip">Procurement</span>
+                    <span class="chip">EMEA</span>
+                    <span class="chip">NAMER</span>
+                    <span class="chip">Go-Live</span>
+                    <span class="chip">VIT · CS</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MARQUEE 2 -->
+<div class="mq">
+    <div class="mq-track rev">
+        <span class="mq-t">SOFTWARE ENGINEER <em>✦</em> NISSAN DIGITAL <em>✦</em> TATA STEEL <em>✦</em> VIT VELLORE <em>✦</em> IEEE CS <em>✦</em> STAR PERFORMER <em>✦</em> EXCEPTIONAL SERVICE <em>✦</em></span>
+        <span class="mq-t">SOFTWARE ENGINEER <em>✦</em> NISSAN DIGITAL <em>✦</em> TATA STEEL <em>✦</em> VIT VELLORE <em>✦</em> IEEE CS <em>✦</em> STAR PERFORMER <em>✦</em> EXCEPTIONAL SERVICE <em>✦</em></span>
+    </div>
+</div>
+
+<!-- EXPERIENCE -->
+<div id="experience">
+    <div class="sw">
+        <div class="s-lbl r">Experience</div>
+        <h2 class="s-ttl r d1">WHERE<br>I'VE BEEN</h2>
+        <div class="exp-list r d2">
+
+            <div class="ei" onclick="tog(this)">
+                <div class="ei-n">01</div>
+                <div>
+                    <div class="ei-co">SAP Ariba · Full-time · Hybrid</div>
+                    <div class="ei-role">Consultant — Technical Lead</div>
+                    <div class="ei-loc">Bengaluru, Karnataka, India</div>
+                    <div class="ei-body"><ul class="ei-buls">
+                        <li>Lead technical implementation and delivery of SAP Ariba Buying &amp; Invoicing solutions within the Shared Services team, tailored to enterprise client requirements.</li>
+                        <li>Drive end-to-end B&amp;I module deployments across EMEA and NAMER regions, ensuring best practices and sustainable go-live outcomes.</li>
+                        <li>Act as primary technical point of contact for stakeholders, bridging client business needs with platform capabilities.</li>
+                    </ul></div>
+                </div>
+                <div class="ei-r"><div class="ei-date">Apr 2025 — Present</div><div class="ei-tog">+</div></div>
+            </div>
+
+            <div class="ei" onclick="tog(this)">
+                <div class="ei-n">02</div>
+                <div>
+                    <div class="ei-co">SAP Ariba · Full-time · Hybrid</div>
+                    <div class="ei-role">Associate Consultant</div>
+                    <div class="ei-loc">Bengaluru, Karnataka, India</div>
+                    <div class="ei-body"><ul class="ei-buls">
+                        <li>Configured and integrated SAP Ariba procurement solutions across multiple enterprise clients, ensuring smooth execution and post-go-live stability.</li>
+                        <li>Customised Ariba modules to meet specific business needs, earning SAP Exceptional Service Awards in 2023 and 2024.</li>
+                        <li>Provided post-go-live support, resolving production issues and driving continuous improvement for client environments.</li>
+                    </ul></div>
+                </div>
+                <div class="ei-r"><div class="ei-date">Jan 2022 — Mar 2025</div><div class="ei-tog">+</div></div>
+            </div>
+
+            <div class="ei" onclick="tog(this)">
+                <div class="ei-n">03</div>
+                <div>
+                    <div class="ei-co">Nissan Digital India LLP · Full-time</div>
+                    <div class="ei-role">Software Engineer</div>
+                    <div class="ei-loc">Thiruvananthapuram, India</div>
+                    <div class="ei-body"><ul class="ei-buls">
+                        <li>Contributed to digitisation and automation projects advancing Nissan's "Digital Workplace" initiative across critical business areas.</li>
+                        <li>Built scalable solutions that reduced manual overhead and streamlined internal workflows and processes.</li>
+                        <li>Received the <strong>Star Performer of the Year Award (2019)</strong> for streamlining the financial tool project and improving the SDLC process.</li>
+                    </ul></div>
+                </div>
+                <div class="ei-r"><div class="ei-date">Jul 2019 — Dec 2021</div><div class="ei-tog">+</div></div>
+            </div>
+
+            <div class="ei" onclick="tog(this)">
+                <div class="ei-n">04</div>
+                <div>
+                    <div class="ei-co">Tata Steel · Internship</div>
+                    <div class="ei-role">Project Intern</div>
+                    <div class="ei-loc">Jamshedpur, Jharkhand, India</div>
+                    <div class="ei-body"><ul class="ei-buls">
+                        <li>Designed and built a web-based Peer Feedback &amp; Appreciation System replacing Tata Steel's manual paper-based process.</li>
+                        <li>Scoped, developed, and delivered the entire product independently within a 2-month timeline.</li>
+                    </ul></div>
+                </div>
+                <div class="ei-r"><div class="ei-date">May 2018 — Jun 2018</div><div class="ei-tog">+</div></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- MARQUEE 3 -->
+<div class="mq">
+    <div class="mq-track">
+        <span class="mq-t">BUYING &amp; INVOICING <em>✦</em> MODULE CONFIG <em>✦</em> GO-LIVE <em>✦</em> POST GO-LIVE <em>✦</em> CLIENT DELIVERY <em>✦</em> INTEGRATION <em>✦</em> AUTOMATION <em>✦</em></span>
+        <span class="mq-t">BUYING &amp; INVOICING <em>✦</em> MODULE CONFIG <em>✦</em> GO-LIVE <em>✦</em> POST GO-LIVE <em>✦</em> CLIENT DELIVERY <em>✦</em> INTEGRATION <em>✦</em> AUTOMATION <em>✦</em></span>
+    </div>
+</div>
+
+<!-- SKILLS -->
+<div id="skills">
+    <div class="sw">
+        <div class="s-lbl r">Toolkit</div>
+        <h2 class="s-ttl r d1">WHAT I<br>WORK WITH</h2>
+        <div class="sk-grid">
+            <div class="sk-col r d1"><div class="sk-head">SAP ARIBA</div><ul class="sk-ul"><li>Buying &amp; Invoicing</li><li>B&amp;I Configuration</li><li>Module Deployment</li><li>Go-Live Support</li><li>Post Go-Live</li><li>Procurement</li></ul></div>
+            <div class="sk-col r d2"><div class="sk-head">CONSULTING</div><ul class="sk-ul"><li>Client Delivery</li><li>Requirements Analysis</li><li>Stakeholder Mgmt</li><li>Best Practices</li><li>EMEA · NAMER</li><li>Technical Lead</li></ul></div>
+            <div class="sk-col r d3"><div class="sk-head">TECHNICAL</div><ul class="sk-ul"><li>Software Engineering</li><li>System Integration</li><li>Web Development</li><li>Automation</li><li>REST APIs</li><li>SDLC</li></ul></div>
+            <div class="sk-col r d4"><div class="sk-head">FOUNDATION</div><ul class="sk-ul"><li>Computer Science</li><li>Problem Solving</li><li>Process Improvement</li><li>Digitisation</li><li>Leadership</li><li>Team Management</li></ul></div>
+        </div>
+    </div>
+</div>
+
+<!-- PROJECTS -->
+<div id="projects">
+    <div class="sw">
+        <div class="s-lbl r">Work Highlights</div>
+        <h2 class="s-ttl r d1">THINGS<br>I'VE BUILT</h2>
+        <div class="pr-grid">
+            <div class="pr-card r d1">
+                <div class="pr-n">01</div>
+                <div class="pr-tag">SAP Ariba · EMEA &amp; NAMER</div>
+                <div class="pr-name">Enterprise B&amp;I Deployments</div>
+                <div class="pr-desc">Led multi-region deployment of SAP Ariba Buying &amp; Invoicing modules for enterprise clients — from requirements through go-live and post-production support across two global regions.</div>
+                <div class="pr-pills"><span class="pr-pill">SAP Ariba</span><span class="pr-pill">B&amp;I Modules</span><span class="pr-pill">EMEA</span><span class="pr-pill">NAMER</span></div>
+            </div>
+            <div class="pr-card r d2">
+                <div class="pr-n">02</div>
+                <div class="pr-tag">Nissan Digital · 2019–2021</div>
+                <div class="pr-name">Digital Workplace Automation</div>
+                <div class="pr-desc">Built automation and digitisation tools advancing Nissan's Digital Workplace initiative. Addressed critical business challenges and streamlined SDLC processes. Received Star Performer of the Year.</div>
+                <div class="pr-pills"><span class="pr-pill">Automation</span><span class="pr-pill">Digitisation</span><span class="pr-pill">SDLC</span></div>
+            </div>
+            <div class="pr-card r d3">
+                <div class="pr-n">03</div>
+                <div class="pr-tag">Tata Steel · 2018</div>
+                <div class="pr-name">Peer Feedback System</div>
+                <div class="pr-desc">Designed and built a web-based Peer Feedback &amp; Appreciation platform that replaced Tata Steel's manual paper-based process. Scoped and delivered end-to-end in 2 months.</div>
+                <div class="pr-pills"><span class="pr-pill">Web App</span><span class="pr-pill">Full-Stack</span><span class="pr-pill">HR Tech</span></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- AWARDS -->
+<div id="awards">
+    <div class="sw">
+        <div class="s-lbl r">Recognition</div>
+        <h2 class="s-ttl r d1">CERTS &amp;<br>AWARDS</h2>
+        <div class="aw-grid">
+            <div class="aw-card r d1"><div class="aw-yr">2025</div><div class="aw-by">SAP · Certification</div><div class="aw-name">SAP Certified Associate — Implementation Consultant, SAP Ariba Procurement</div><div class="aw-desc">Issued Jun 2025. Active certification validating expertise in SAP Ariba Procurement implementation.</div></div>
+            <div class="aw-card r d2"><div class="aw-yr">2024</div><div class="aw-by">SAP · Award</div><div class="aw-name">Exceptional Service Award 2024</div><div class="aw-desc">SAP Awards &amp; Recognition — issued Jun 2024 for outstanding client delivery and service excellence.</div></div>
+            <div class="aw-card r d3"><div class="aw-yr">2023</div><div class="aw-by">SAP · Award</div><div class="aw-name">Exceptional Service Award 2023</div><div class="aw-desc">SAP Awards &amp; Recognition — issued Sep 2023. Second consecutive year of exceptional service recognition.</div></div>
+            <div class="aw-card r d4"><div class="aw-yr">2019</div><div class="aw-by">Nissan Digital · Award</div><div class="aw-name">Star Performer of the Year</div><div class="aw-desc">Recognised for initiatives to streamline the financial tool project and improve the SDLC process.</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- EDUCATION -->
+<div id="education">
+    <div class="sw">
+        <div class="s-lbl r">Education</div>
+        <h2 class="s-ttl r d1">WHERE I<br>STUDIED</h2>
+        <div class="ed-card r d2">
+            <div>
+                <div class="ed-school">Vellore Institute of Technology</div>
+                <div class="ed-deg">B.Tech · Computer Science Engineering</div>
+                <div class="ed-body">CGPA 8.45 / 10 &nbsp;·&nbsp; 2015 – 2019<br><br>Management Head, IEEE Computer Society VIT (3 years) &nbsp;·&nbsp; Student Organiser &amp; Coordinator, Gravitas — VIT's Techno-Management Extravaganza &nbsp;·&nbsp; Relationship Manager, Team Ecotitans (Shell EcoMarathon)</div>
+            </div>
+            <div class="ed-yr">2019</div>
+        </div>
+    </div>
+</div>
+
+<!-- CONTACT -->
+<div id="contact">
+    <div class="sw ct-wrap">
+        <h2 class="ct-big r">LET'S<br><span class="ghost">CONNECT.</span></h2>
+        <p class="ct-sub r d1">Whether it's a new opportunity, a consulting project, or just a good conversation — I'm always open.</p>
+        <div class="ct-row r d2">
+            <a href="tel:+917763930007" class="cpill">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.43 2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6.08 6.08l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                +91 77639 30007
+            </a>
+            <a href="mailto:av.varma07@gmail.com" class="cpill">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                av.varma07@gmail.com
+            </a>
+            <a href="https://linkedin.com/in/ayushmanvarma" class="cpill" target="_blank">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                LinkedIn
+            </a>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <span>© 2025 Ayushman Varma</span>
+    <span>Consultant · SAP Ariba · Bengaluru</span>
+</footer>
+
+<script>
+// LOADER
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        document.getElementById('loader').classList.add('open');
+        setTimeout(() => document.getElementById('loader').remove(), 1200);
+    }, 1600);
+});
+
+// CURSOR + GLOW
+const cur  = document.getElementById('cur');
+const ring = document.getElementById('cur-ring');
+const glow = document.getElementById('glow');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e => {
+    mx=e.clientX; my=e.clientY;
+    cur.style.left=mx+'px'; cur.style.top=my+'px';
+    glow.style.left=mx+'px'; glow.style.top=my+'px';
+});
+(function fr(){
+    rx+=(mx-rx)*.1; ry+=(my-ry)*.1;
+    ring.style.left=rx+'px'; ring.style.top=ry+'px';
+    requestAnimationFrame(fr);
+})();
+document.querySelectorAll('a,.ei,.pr-card,.aw-card,.sk-col,.ed-card').forEach(el=>{
+    el.addEventListener('mouseenter',()=>document.body.classList.add('ch'));
+    el.addEventListener('mouseleave',()=>document.body.classList.remove('ch'));
+});
+
+// NAV
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('stuck',scrollY>60),{passive:true});
+
+// REVEAL
+const ro=new IntersectionObserver(es=>{
+    es.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('on');ro.unobserve(e.target);} });
+},{threshold:.1});
+document.querySelectorAll('.r').forEach(el=>ro.observe(el));
+
+// EXPERIENCE ACCORDION
+function tog(item){
+    const was=item.classList.contains('open');
+    document.querySelectorAll('.ei').forEach(i=>i.classList.remove('open'));
+    if(!was) item.classList.add('open');
+}
+
+// 3D TILT on project cards
+document.querySelectorAll('.pr-card').forEach(c=>{
+    c.addEventListener('mousemove',e=>{
+        const r=c.getBoundingClientRect();
+        const x=(e.clientX-r.left)/r.width-.5;
+        const y=(e.clientY-r.top)/r.height-.5;
+        c.style.transform=`perspective(600px) rotateY(${x*10}deg) rotateX(${-y*10}deg) translateZ(6px)`;
+    });
+    c.addEventListener('mouseleave',()=>{c.style.transform='';});
+});
+</script>
+</body>
+</html>
