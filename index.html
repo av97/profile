@@ -11,10 +11,10 @@
         :root {
             --bg:     #070709;
             --fg:     #F0ECE4;
-            --dim:    #5A5760;
+            --dim:    #7A777F;
             --orange: #FF4D00;
             --border: rgba(240,236,228,0.07);
-            --glass:  rgba(240,236,228,0.025);
+            --glass:  rgba(240,236,228,0.05);
             --display:'Bebas Neue', 'Arial Black', sans-serif;
             --body:   'Outfit', system-ui, sans-serif;
             --mono:   'JetBrains Mono', monospace;
@@ -26,7 +26,6 @@
             color: var(--fg);
             font-family: var(--body);
             overflow-x: hidden;
-            cursor: none;
         }
         /* grain */
         body::after {
@@ -42,25 +41,6 @@
             background:radial-gradient(circle, rgba(255,77,0,0.07) 0%, transparent 68%);
             pointer-events:none; transform:translate(-50%,-50%); z-index:0;
         }
-
-        /* ── CURSOR ── */
-        #cur {
-            position:fixed; width:8px; height:8px;
-            background:var(--fg); border-radius:50%;
-            pointer-events:none; z-index:9999;
-            transform:translate(-50%,-50%);
-            mix-blend-mode:difference;
-            transition:width .2s,height .2s;
-        }
-        #cur-ring {
-            position:fixed; width:38px; height:38px;
-            border:1px solid rgba(240,236,228,.25); border-radius:50%;
-            pointer-events:none; z-index:9998;
-            transform:translate(-50%,-50%);
-            transition:width .25s,height .25s,opacity .25s;
-        }
-        body.ch #cur { width:64px; height:64px; }
-        body.ch #cur-ring { width:0; height:0; opacity:0; }
 
         /* ── LOADER (curtain split) ── */
         #loader { position:fixed; inset:0; z-index:9000; pointer-events:none; }
@@ -128,15 +108,6 @@
             animation:blink 2s ease infinite;
         }
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.25} }
-
-        .h-side {
-            position:absolute; top:50%; right:60px;
-            transform:translateY(-50%);
-            font-family:var(--mono); font-size:9px;
-            letter-spacing:.28em; text-transform:uppercase; color:var(--dim);
-            writing-mode:vertical-rl;
-            opacity:0; animation:fup .6s ease 2.5s forwards;
-        }
 
         .h-name {
             font-family:var(--display);
@@ -285,6 +256,7 @@
 
         /* ── SECTION WRAPPER ── */
         .sw { max-width:1200px; margin:0 auto; padding:120px 60px; }
+        #experience, #clients, #voc, #education { background:#0c0c0f; }
         .s-lbl {
             font-family:var(--mono); font-size:10px;
             letter-spacing:.3em; text-transform:uppercase; color:var(--orange);
@@ -294,7 +266,7 @@
         .s-ttl {
             font-family:var(--display);
             font-size:clamp(3rem,6vw,5.5rem);
-            line-height:1; letter-spacing:.02em; margin-bottom:64px;
+            line-height:1; letter-spacing:-.025em; margin-bottom:88px;
         }
 
         /* ── ABOUT ── */
@@ -418,6 +390,13 @@
         .aw-name { font-size:1.05rem; font-weight:600; line-height:1.4; margin-bottom:12px; }
         .aw-desc { font-size:.85rem; color:var(--dim); line-height:1.8; }
 
+        /* ── TESTIMONIALS pull-quote stack ── */
+        .tst-stack { display:flex; flex-direction:column; gap:2px; }
+        .tst-card { border-left:2px solid rgba(255,77,0,.28); padding:22px 28px; background:var(--glass); transition:border-left-color .3s; }
+        .tst-card:hover { border-left-color:var(--orange); }
+        .tst-quote { font-style:italic; font-size:clamp(.95rem,1.5vw,1.15rem); color:var(--fg); line-height:1.82; font-weight:300; margin-bottom:10px; }
+        .tst-src { font-family:var(--mono); font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--orange); }
+
         /* ── VOC SCORECARD ── */
         .voc-wrap { overflow-x:auto; }
         .voc-tbl { width:100%; border-collapse:collapse; font-size:.8rem; min-width:760px; }
@@ -433,7 +412,7 @@
         .voc-ref { background:rgba(54,179,126,.15); color:#36b37e; }
 
         /* ── CLIENT PORTFOLIO ── */
-        .cat-block { margin-bottom:2px; }
+        .cat-block { margin-bottom:32px; }
         .cat-hdr { background:var(--glass); border:1px solid var(--border); border-bottom:none; padding:18px 28px; display:flex; justify-content:space-between; align-items:center; }
         .cat-hdr-name { font-family:var(--display); font-size:1.6rem; letter-spacing:.05em; }
         .cat-hdr-ct { font-family:var(--mono); font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--orange); }
@@ -457,7 +436,7 @@
         .spot-msft::after { background:linear-gradient(90deg,#00a4ef,#7fba00,#f25022,#ffb900); }
         .spot-pepsi::after { background:linear-gradient(90deg,#004b93,#e32934,#004b93); }
         .spot-type { font-family:var(--mono); font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--orange); margin-bottom:10px; }
-        .spot-title { font-family:var(--display); font-size:3rem; letter-spacing:.03em; line-height:1.1; margin-bottom:6px; }
+        .spot-title { font-family:var(--display); font-size:3rem; letter-spacing:-.025em; line-height:1.1; margin-bottom:6px; }
         .spot-sub { font-family:var(--mono); font-size:10px; color:var(--dim); letter-spacing:.1em; text-transform:uppercase; margin-bottom:20px; }
         .spot-ceo { display:inline-flex; align-items:center; gap:8px; background:rgba(255,215,0,.07); border:1px solid rgba(255,215,0,.25); color:#ffd700; font-family:var(--mono); font-size:9px; letter-spacing:.12em; text-transform:uppercase; padding:5px 14px; margin-bottom:24px; }
         .spot-stats { display:flex; gap:2px; margin-bottom:28px; }
@@ -494,7 +473,7 @@
         .ct-big {
             font-family:var(--display);
             font-size:clamp(4rem,13vw,12rem);
-            line-height:.88; letter-spacing:.02em; margin-bottom:28px;
+            line-height:.88; letter-spacing:-.03em; margin-bottom:28px;
         }
         .ct-big .ghost { color:transparent; -webkit-text-stroke:2px rgba(240,236,228,.18); }
         .ct-sub { font-size:1rem; color:var(--dim); max-width:420px; margin:0 auto 48px; line-height:1.95; font-weight:300; }
@@ -528,7 +507,6 @@
             nav.stuck{padding-left:24px;padding-right:24px;}
             .n-links{display:none;}
             .h-name{font-size:clamp(4rem,18vw,9rem);}
-            .h-side{display:none;}
             .ab-grid{grid-template-columns:1fr;gap:48px;}
             .ei{grid-template-columns:48px 1fr;}
             .ei-r{display:none;}
@@ -548,8 +526,6 @@
 <body>
 
 <div id="glow"></div>
-<div id="cur"></div>
-<div id="cur-ring"></div>
 
 <!-- LOADER -->
 <div id="loader">
@@ -575,7 +551,6 @@
 <!-- HERO -->
 <section id="hero">
     <div class="h-status">SAP Ariba · Technical Consultant · Bengaluru</div>
-    <div class="h-side">7+ Yrs Experience · 70+ Clients · 14+ Countries · 4× Perfect VOC · SAP Ariba Certified</div>
     <div class="h-name">
         <span class="wrd"><span>AYUSHMAN</span></span>
         <span class="wrd"><span>VARMA.</span></span>
@@ -882,7 +857,7 @@
                 <div class="pr-n">01</div>
                 <div class="pr-tag">Microsoft · USA · Apr–Nov 2024</div>
                 <div class="pr-name">Project Hogan: 38+ CRDs</div>
-                <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,215,0,.07);border:1px solid rgba(255,215,0,.25);color:#ffd700;font-family:var(--mono);font-size:8px;letter-spacing:.12em;text-transform:uppercase;padding:4px 12px;margin-bottom:12px;">★ Highlighted to the CEO of Microsoft</div>
+                <div class="spot-ceo">★ &nbsp; Highlighted to the CEO of Microsoft</div>
                 <div class="pr-desc">One of the largest SAP Ariba B&amp;I engagements in the PTS portfolio. Delivered 38+ Change Request Deliverables for Microsoft's global procurement platform, complex AML logic, multi-realm orchestration, and enterprise-scale cutover management.</div>
                 <div class="pr-pills"><span class="pr-pill">Enterprise</span><span class="pr-pill">38+ CRDs</span><span class="pr-pill">Multi-Realm</span><span class="pr-pill">AML</span></div>
             </div>
@@ -1213,80 +1188,32 @@
     <div class="sw">
         <div class="s-lbl r">Voice of Customer</div>
         <h2 class="s-ttl r d1">WHAT THEY<br>SAY</h2>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:2px;">
-            <div class="aw-card r d1" style="border-color:rgba(255,77,0,.15);">
-                <div class="aw-by">PepsiCo · Nov 2025 · VOC 7/7</div>
-                <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"They go beyond simply implementing what is indicated; they proactively suggest solutions and workarounds that are technically sound and cost-effective. Solution-Oriented. Quick Turnaround. Technical Expertise. Professionalism."</div>
+        <div class="tst-stack">
+            <div class="tst-card r d1">
+                <blockquote class="tst-quote">"They go beyond simply implementing what is indicated; they proactively suggest solutions and workarounds that are technically sound and cost-effective. Solution-Oriented. Quick Turnaround. Technical Expertise. Professionalism."</blockquote>
+                <div class="tst-src">PepsiCo · Nov 2025 · VOC 7/7</div>
             </div>
-            <div class="aw-card r d2" style="border-color:rgba(255,77,0,.15);">
-                <div class="aw-by">Tanner Astorina, CSP · SAP Celebrate Award · Jul 2025</div>
-                <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"Your ability to build trust, deliver value, and navigate challenges with grace has made a meaningful impact at MKS. Thank you for embodying what it means to be customer-first."</div>
+            <div class="tst-card r d2">
+                <blockquote class="tst-quote">"Your ability to build trust, deliver value, and navigate challenges with grace has made a meaningful impact at MKS. Thank you for embodying what it means to be customer-first."</blockquote>
+                <div class="tst-src">Tanner Astorina, CSP · SAP Celebrate Award · Jul 2025</div>
             </div>
-            <div class="aw-card r d3" style="border-color:rgba(255,77,0,.15);">
-                <div class="aw-by">Daryl D'Angelo, VP PTS · MKS · Jul 2025</div>
-                <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"Well done Ayushman! I know this was a complex re-implementation given the company's conditions. Glad to hear of your great contributions here!"</div>
+            <div class="tst-card r d1">
+                <blockquote class="tst-quote">"You have really grown to become one of our finest consultants. Thank you for taking care of our customers, listening to them with empathy and providing them with solutions."</blockquote>
+                <div class="tst-src">Alok Sinha, Manager · 4th Anniversary · Feb 2026</div>
             </div>
-            <div class="aw-card r d1" style="border-color:rgba(255,77,0,.15);">
-                <div class="aw-by">Alok Sinha, Manager · 4th Anniversary · Feb 2026</div>
-                <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"You have really grown to become one of our finest consultants. Thank you for taking care of our customers, listening to them with empathy and providing them with solutions."</div>
+            <div class="tst-card r d2">
+                <blockquote class="tst-quote">"Well done Ayushman! I know this was a complex re-implementation given the company's conditions. Glad to hear of your great contributions here!"</blockquote>
+                <div class="tst-src">Daryl D'Angelo, VP PTS · MKS · Jul 2025</div>
             </div>
-            <div class="aw-card r d2" style="border-color:rgba(255,77,0,.15);">
-                <div class="aw-by">Morten Rasmussen, Deployment Lead · Apetito Go-Live · Jun 2026</div>
-                <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"It has again been a real pleasure to work with you, and I hope to meet you on a future project soon."</div>
+            <div class="tst-card r d1">
+                <blockquote class="tst-quote">"I would like to recognize the quality of your work and the turnaround speed to complete the PR Approval Changes. Sincerely appreciate the efforts and a great thank you!"</blockquote>
+                <div class="tst-src">Arul Anjaneyan, Project Lead · Microsoft Project Hogan · Jun 2024</div>
             </div>
-            <div class="aw-card r d3" style="border-color:rgba(255,77,0,.15);">
-                <div class="aw-by">PepsiCo · on realm migration · Nov 2025</div>
-                <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"Historically this process has been prone to issues, but under his execution it was completed smoothly without errors. Both Test and Prod realm enablement were completed earlier than planned."</div>
+            <div class="tst-card r d2">
+                <blockquote class="tst-quote">"Congrats on the great results and Referenceability! Great job!"</blockquote>
+                <div class="tst-src">Gauthier Vanesse, Director Global Delivery · iQibt · Jan 2025</div>
             </div>
-            <div class="aw-card r d1" style="border-color:rgba(255,77,0,.15);">
-                <div class="aw-by">Rashmi Mulimani, Manager · MKS · Jul 2025</div>
-                <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"Very proud of how you have grown in the team and have been handling difficult customers and situations so professionally. Thank you for your excellence."</div>
-            </div>
-            <div class="aw-card r d2" style="border-color:rgba(255,77,0,.15);">
-                <div class="aw-by">Deepthi Subramanian, Technical Consultant · 4th Anniversary · Feb 2026</div>
-                <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"You've truly grown into one of our finest consultants. The maturity and experience you demonstrate in your work reflect well beyond your years of experience."</div>
-            </div>
-            <div class="aw-card r d3" style="border-color:rgba(255,77,0,.15);">
-                <div class="aw-by">Judit Zsigmond, SAP Colleague · Acquedotto Pugliese · 2024</div>
-                <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"Even if Ayushman did an outstanding and brilliant job on the Acquedotto project..."</div>
-            </div>
-            <div class="aw-card r d1" style="border-color:rgba(255,77,0,.15);">
-                <div class="aw-by">Aniketh Paul, Peer Colleague · PepsiCo PGCS · Nov 2025</div>
-                <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"Kudos to Ayushman for showing great technical expertise during the complete project tenure."</div>
-            </div>
-            <div class="aw-card r d2" style="border-color:rgba(255,77,0,.15);">
-                <div class="aw-by">Alok Sinha, Manager · PepsiCo VOC · Nov 2025</div>
-                <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"Both of you have made a huge positive impact on the customer satisfaction and the overall deployment, and it shows in the appreciation the customer has given."</div>
-            </div>
-            <div class="aw-card r d3" style="border-color:rgba(255,77,0,.15);">
-                <div class="aw-by">Gauthier Vanesse, Director Global Delivery · Gerresheimer · Aug 2023</div>
-                <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"Congratulations on this successful delivery and nomination! Thank you for the great job and continuous efforts!"</div>
-            </div>
-            <div class="aw-card r d1" style="border-color:rgba(255,77,0,.15);">
-                <div class="aw-by">Rashmi Mulimani, Manager · 4th Anniversary · Feb 2026</div>
-                <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"Your efforts in hosting the global knowledge-sharing sessions is impressive. Thank you for your commitment to our customer success and team collaboration."</div>
-            </div>
-            <div class="aw-card r d2" style="border-color:rgba(255,77,0,.15);">
-                <div class="aw-by">Gauthier Vanesse, Director Global Delivery · iQibt · Jan 2025</div>
-                <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"Congrats on the great results and Referenceability! Great job!"</div>
-            </div>
-            <div class="aw-card r d3" style="border-color:rgba(255,77,0,.15);">
-                <div class="aw-by">Narendra Kumar Javare Gowda, STQC (Govt. of India) · Sep 2026</div>
-                <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"Appreciate your support and follow-up with relevant stakeholders in resolving the issue."</div>
-            </div>
-            <div class="aw-card r d2" style="border-color:rgba(255,77,0,.15);">
-                <div class="aw-by">Arul Anjaneyan, Project Lead · Microsoft Project Hogan · Jun 2024</div>
-                <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"I would like to recognize the quality of your work and the turnaround speed to complete the PR Approval Changes. Sincerely appreciate the efforts and a great thank you!", Sent to the entire Hogan team including Microsoft stakeholders.</div>
-            </div>
-            <div class="aw-card r d3" style="border-color:rgba(255,77,0,.15);">
-                <div class="aw-by">Alok Sinha, Manager · Microsoft Project Hogan · Jun 2024</div>
-                <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"Great feedback from the field consulting team for your work on the Microsoft project. This project has not been an easy one by any means and you have handled it very well taking care of delivering everything with quality and timely."</div>
-            </div>
-            <div class="aw-card r d1" style="border-color:rgba(255,77,0,.15);">
-                <div class="aw-by">Rashmi Mulimani, Manager · LEG Management VOC · Mar 2024</div>
-                <div class="aw-name" style="font-size:.95rem;font-style:italic;font-weight:300;line-height:1.7;">"Great job in interacting with customer and internal team, happy to see you growing."</div>
-            </div>
-            </div>
+        </div>
         </div>
     </div>
 </div>
@@ -1314,7 +1241,7 @@
 </div>
 
 <footer>
-    <span>© 2025 Ayushman Varma</span>
+    <span>© 2026 Ayushman Varma</span>
     <span>Consultant · SAP Ariba · Bengaluru</span>
 </footer>
 
@@ -1327,24 +1254,12 @@ window.addEventListener('load', () => {
     }, 1600);
 });
 
-// CURSOR + GLOW
-const cur  = document.getElementById('cur');
-const ring = document.getElementById('cur-ring');
+// GLOW
 const glow = document.getElementById('glow');
-let mx=0,my=0,rx=0,ry=0;
+let mx=0,my=0;
 document.addEventListener('mousemove', e => {
     mx=e.clientX; my=e.clientY;
-    cur.style.left=mx+'px'; cur.style.top=my+'px';
     glow.style.left=mx+'px'; glow.style.top=my+'px';
-});
-(function fr(){
-    rx+=(mx-rx)*.1; ry+=(my-ry)*.1;
-    ring.style.left=rx+'px'; ring.style.top=ry+'px';
-    requestAnimationFrame(fr);
-})();
-document.querySelectorAll('a,.ei,.pr-card,.aw-card,.sk-col,.ed-card,.cl-item,.cat-hdr,.pt-chip').forEach(el=>{
-    el.addEventListener('mouseenter',()=>document.body.classList.add('ch'));
-    el.addEventListener('mouseleave',()=>document.body.classList.remove('ch'));
 });
 
 // NAV
@@ -1405,7 +1320,7 @@ function avSpeak(){
     }
     avJingle();
     const script="Hey! Ayushman Varma here. Seven years. Fourteen countries. Seventy enterprise clients. Four perfect scores back to back. That is not just experience; that is a track record. Scroll down and see what makes this different.";
-    const typed="Hey! I'm Ayushman. 👋";
+    const typed="Hey. I'm Ayushman.";
     bbl.textContent=''; bbl.classList.add('show'); wrap.classList.add('talking');
     let i=0;
     const ti=setInterval(()=>{ if(i<typed.length){bbl.textContent+=typed[i++];}else clearInterval(ti); },55);
