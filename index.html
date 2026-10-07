@@ -195,51 +195,51 @@
             position:relative; width:100%; height:100%;
             animation:av-float 4.8s ease-in-out 4.2s infinite;
         }
-        @keyframes av-enter { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes av-enter { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
         @keyframes av-float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-16px)} }
         .av-glow {
-            position:absolute; bottom:4px; left:50%;
+            position:absolute; bottom:0; left:50%;
             transform:translateX(-50%);
-            width:220px; height:70px;
-            background:radial-gradient(ellipse at center, rgba(255,77,0,.52) 0%, transparent 68%);
-            filter:blur(22px);
+            width:220px; height:72px;
+            background:radial-gradient(ellipse at center, rgba(255,77,0,.55) 0%, transparent 68%);
+            filter:blur(24px);
             pointer-events:none;
         }
-        .av-img {
-            position:absolute; bottom:0; left:0;
-            width:100%; height:96%;
-            object-fit:contain;
-            object-position:bottom center;
-            filter:brightness(.82) saturate(.76) contrast(1.12) drop-shadow(0 0 28px rgba(255,77,0,.2));
-            -webkit-mask-image:linear-gradient(to bottom, black 0%, black 62%, transparent 100%);
-            mask-image:linear-gradient(to bottom, black 0%, black 62%, transparent 100%);
-            pointer-events:none;
-            display:block;
+        .av-svg { width:100%; height:100%; display:block; overflow:visible; }
+        #av-arm-l,#av-arm-r { transform-box:fill-box; transform-origin:50% 0%; }
+        .av-wrap.talking #av-arm-r { animation:av-wave .55s ease-in-out infinite; }
+        @keyframes av-wave {
+            0%,100%{ transform:rotate(0deg); }
+            35%{ transform:rotate(-42deg); }
+            70%{ transform:rotate(-18deg); }
         }
+        .av-wrap.talking #av-sparkle-c { animation:av-spark .8s ease-in-out infinite alternate; }
+        #av-sparkle-c { opacity:0; }
+        @keyframes av-spark { from{opacity:0} to{opacity:1} }
         .av-bubble {
-            position:absolute; top:-2px; left:50%;
-            transform:translateX(-80%);
+            position:absolute; top:-74px; left:50%;
+            transform:translateX(-58%);
             background:rgba(7,7,9,.97);
             border:1px solid var(--orange);
             border-radius:10px 10px 10px 2px;
-            padding:10px 15px;
+            padding:10px 16px;
             font-family:var(--mono); font-size:10px; line-height:1.6;
             letter-spacing:.06em; color:var(--fg);
             white-space:nowrap; min-width:160px;
             opacity:0; transition:opacity .45s ease;
             pointer-events:none;
-            box-shadow:0 0 26px rgba(255,77,0,.22), inset 0 0 0 1px rgba(255,77,0,.08);
+            box-shadow:0 0 30px rgba(255,77,0,.22), inset 0 0 0 1px rgba(255,77,0,.08);
             z-index:10;
         }
         .av-bubble.show { opacity:1; }
         .av-bubble::after {
-            content:''; position:absolute; bottom:-8px; right:24px;
+            content:''; position:absolute; bottom:-8px; right:22px;
             border:8px solid transparent;
             border-top:8px solid var(--orange);
             border-bottom:0;
         }
         .av-speak-btn {
-            position:absolute; bottom:62px; left:50%;
+            position:absolute; bottom:36px; left:50%;
             transform:translateX(-50%);
             background:rgba(255,77,0,.1);
             border:1px solid rgba(255,77,0,.5);
@@ -262,7 +262,7 @@
         }
         @keyframes av-ring {
             0%{ box-shadow:0 0 0 0 rgba(255,77,0,.55); }
-            70%{ box-shadow:0 0 0 10px rgba(255,77,0,0); }
+            70%{ box-shadow:0 0 0 12px rgba(255,77,0,0); }
             100%{ box-shadow:0 0 0 0 rgba(255,77,0,0); }
         }
         .av-dot { width:6px; height:6px; border-radius:50%; background:var(--orange); flex-shrink:0; }
@@ -589,7 +589,135 @@
     <div class="av-wrap" id="av-char">
         <div class="av-inner">
             <div class="av-glow"></div>
-            <img class="av-img" src="av-photo.png" alt="Ayushman Varma" />
+            <!-- SVG Character: Ayushman — consultant, sunglasses, blue shirt, dark jacket -->
+            <svg id="av-svg" class="av-svg" viewBox="0 0 160 340" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="av-skin" cx="40%" cy="34%" r="60%">
+                  <stop offset="0%" stop-color="#D4935A"/>
+                  <stop offset="65%" stop-color="#C07840"/>
+                  <stop offset="100%" stop-color="#9A5A22"/>
+                </radialGradient>
+                <linearGradient id="av-jacket" x1="0%" y1="0%" x2="25%" y2="100%">
+                  <stop offset="0%" stop-color="#24263c"/>
+                  <stop offset="100%" stop-color="#17192a"/>
+                </linearGradient>
+                <linearGradient id="av-shirt" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#2a6bc0"/>
+                  <stop offset="100%" stop-color="#3d88da"/>
+                </linearGradient>
+                <linearGradient id="av-glass" x1="15%" y1="15%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="rgba(110,180,255,0.18)"/>
+                  <stop offset="100%" stop-color="rgba(0,0,0,0.92)"/>
+                </linearGradient>
+              </defs>
+
+              <!-- ground shadow (CSS glow handles this but a soft SVG shadow adds depth) -->
+              <ellipse cx="80" cy="332" rx="44" ry="8" fill="rgba(255,77,0,0.12)"/>
+
+              <!-- ── LEGS ── -->
+              <rect x="44" y="208" width="30" height="106" rx="15" fill="#14151e"/>
+              <rect x="86" y="208" width="30" height="106" rx="15" fill="#111218"/>
+              <!-- shoes -->
+              <ellipse cx="59" cy="320" rx="24" ry="9" fill="#0c0c13"/>
+              <ellipse cx="101" cy="320" rx="24" ry="9" fill="#0c0c13"/>
+              <!-- shoe toe highlight -->
+              <ellipse cx="53" cy="317" rx="8" ry="3" fill="rgba(255,255,255,0.06)"/>
+              <ellipse cx="95" cy="317" rx="8" ry="3" fill="rgba(255,255,255,0.06)"/>
+
+              <!-- ── JACKET BODY ── -->
+              <rect x="26" y="120" width="108" height="94" rx="18" fill="url(#av-jacket)"/>
+              <!-- depth shadow on right half -->
+              <rect x="80" y="120" width="54" height="94" rx="0 18 18 0" fill="rgba(0,0,0,0.12)"/>
+
+              <!-- blue shirt (center strip) -->
+              <rect x="64" y="120" width="32" height="52" rx="3" fill="url(#av-shirt)"/>
+
+              <!-- orange tie -->
+              <path d="M78 123 L73 145 L80 155 L87 145 L82 123Z" fill="#FF4D00"/>
+              <path d="M78 123 L80 136 L82 123Z" fill="#b83800"/>
+              <!-- tie knot highlight -->
+              <rect x="77" y="122" width="6" height="5" rx="2" fill="#e84200"/>
+
+              <!-- jacket lapels -->
+              <path d="M64 120 C52 134 28 150 26 164 L42 182 C46 168 60 152 64 146Z" fill="#1d1f34"/>
+              <path d="M96 120 C108 134 132 150 134 164 L118 182 C114 168 100 152 96 146Z" fill="#1b1c30"/>
+
+              <!-- left breast pocket square (orange) -->
+              <path d="M30 149 L30 156 L42 156 L42 151Z" fill="#FF4D00" opacity="0.88"/>
+              <path d="M30 149 L36 145 L42 149Z" fill="#FF4D00" opacity="0.88"/>
+
+              <!-- jacket button -->
+              <circle cx="80" cy="182" r="3.5" fill="#2a2c42"/>
+              <circle cx="80" cy="182" r="1.5" fill="#1a1c28"/>
+
+              <!-- ── LEFT ARM ── -->
+              <g id="av-arm-l">
+                <rect x="6" y="126" width="22" height="70" rx="11" fill="url(#av-jacket)"/>
+                <!-- hand -->
+                <ellipse cx="17" cy="200" rx="13" ry="10" fill="url(#av-skin)"/>
+                <!-- thumb -->
+                <ellipse cx="24" cy="196" rx="7" ry="5" fill="url(#av-skin)"/>
+              </g>
+
+              <!-- ── RIGHT ARM (waves when speaking) ── -->
+              <g id="av-arm-r">
+                <rect x="132" y="126" width="22" height="70" rx="11" fill="url(#av-jacket)"/>
+                <!-- hand -->
+                <ellipse cx="143" cy="200" rx="13" ry="10" fill="url(#av-skin)"/>
+                <!-- thumb -->
+                <ellipse cx="136" cy="196" rx="7" ry="5" fill="url(#av-skin)"/>
+              </g>
+
+              <!-- ── NECK ── -->
+              <rect x="64" y="102" width="32" height="26" rx="14" fill="url(#av-skin)"/>
+
+              <!-- ── HEAD ── -->
+              <ellipse cx="80" cy="68" rx="35" ry="40" fill="url(#av-skin)"/>
+              <!-- subtle right-side shadow -->
+              <ellipse cx="96" cy="72" rx="20" ry="34" fill="rgba(0,0,0,0.09)"/>
+
+              <!-- HAIR -->
+              <path d="M45 56 Q45 24 80 22 Q115 24 115 56 Q108 37 80 35 Q52 37 45 56Z" fill="#1c0d03"/>
+              <!-- side hair fills -->
+              <rect x="45" y="46" width="9" height="22" rx="4.5" fill="#1c0d03"/>
+              <rect x="106" y="46" width="9" height="22" rx="4.5" fill="#1c0d03"/>
+
+              <!-- EARS -->
+              <ellipse cx="45" cy="73" rx="7" ry="9" fill="#AB6428"/>
+              <ellipse cx="115" cy="73" rx="7" ry="9" fill="#AB6428"/>
+              <ellipse cx="45" cy="73" rx="3.5" ry="5.5" fill="#934E18"/>
+              <ellipse cx="115" cy="73" rx="3.5" ry="5.5" fill="#934E18"/>
+
+              <!-- ── SUNGLASSES ── -->
+              <!-- left lens fill + tint -->
+              <rect x="43" y="63" width="30" height="18" rx="9" fill="#080810" opacity="0.94"/>
+              <rect x="43" y="63" width="30" height="18" rx="9" fill="url(#av-glass)"/>
+              <rect x="43" y="63" width="30" height="18" rx="9" stroke="#1c1c2a" stroke-width="2" fill="none"/>
+              <!-- right lens -->
+              <rect x="87" y="63" width="30" height="18" rx="9" fill="#080810" opacity="0.94"/>
+              <rect x="87" y="63" width="30" height="18" rx="9" fill="url(#av-glass)"/>
+              <rect x="87" y="63" width="30" height="18" rx="9" stroke="#1c1c2a" stroke-width="2" fill="none"/>
+              <!-- bridge -->
+              <rect x="73" y="68" width="14" height="5" rx="2.5" fill="#1c1c2a"/>
+              <!-- temples -->
+              <rect x="35" y="67" width="10" height="3" rx="1.5" fill="#1c1c2a"/>
+              <rect x="115" y="67" width="10" height="3" rx="1.5" fill="#1c1c2a"/>
+              <!-- lens reflections -->
+              <ellipse cx="54" cy="68" rx="8" ry="3.5" fill="rgba(180,220,255,0.14)"/>
+              <ellipse cx="98" cy="68" rx="8" ry="3.5" fill="rgba(180,220,255,0.14)"/>
+
+              <!-- SMILE -->
+              <path d="M63 95 Q80 110 97 95" stroke="#7a4018" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+              <!-- ORANGE SPARKLE (near glasses, lights up when talking) -->
+              <g id="av-sparkle-c">
+                <circle cx="41" cy="60" r="2.8" fill="#FF4D00"/>
+                <line x1="41" y1="53" x2="41" y2="50" stroke="#FF4D00" stroke-width="2" stroke-linecap="round"/>
+                <line x1="47" y1="55" x2="50" y2="52" stroke="#FF4D00" stroke-width="2" stroke-linecap="round"/>
+                <line x1="35" y1="55" x2="32" y2="52" stroke="#FF4D00" stroke-width="2" stroke-linecap="round"/>
+                <line x1="41" y1="67" x2="41" y2="70" stroke="#FF4D00" stroke-width="1.5" stroke-linecap="round"/>
+              </g>
+            </svg>
             <div class="av-bubble" id="av-bubble"></div>
             <button class="av-speak-btn" id="av-btn" onclick="avSpeak()" aria-label="Play voice introduction">
                 <span class="av-dot" id="av-dot"></span><span id="av-label">Hear Intro</span>
@@ -1249,42 +1377,60 @@ document.querySelectorAll('.pr-card').forEach(c=>{
 });
 
 // AVATAR VOICE INTRO
+function avJingle(){
+    try{
+        const ctx=new(window.AudioContext||window.webkitAudioContext)();
+        const note=(freq,t,dur,vol=0.22)=>{
+            const o=ctx.createOscillator(),g=ctx.createGain();
+            o.connect(g); g.connect(ctx.destination);
+            o.type='sine'; o.frequency.value=freq;
+            g.gain.setValueAtTime(0,ctx.currentTime+t);
+            g.gain.linearRampToValueAtTime(vol,ctx.currentTime+t+0.02);
+            g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+t+dur);
+            o.start(ctx.currentTime+t); o.stop(ctx.currentTime+t+dur+0.06);
+        };
+        note(523,0,.22); note(659,.1,.22); note(784,.2,.22); note(1047,.3,.38,0.18);
+    }catch(e){}
+}
 function avSpeak(){
     const btn=document.getElementById('av-btn');
     const bbl=document.getElementById('av-bubble');
     const dot=document.getElementById('av-dot');
     const lbl=document.getElementById('av-label');
-    if(window.speechSynthesis && window.speechSynthesis.speaking){
+    const wrap=document.getElementById('av-char');
+    if(window.speechSynthesis&&window.speechSynthesis.speaking){
         window.speechSynthesis.cancel();
-        btn.classList.remove('speaking');
-        dot.classList.remove('pulse');
-        lbl.textContent='Hear Intro';
-        bbl.textContent=''; bbl.classList.remove('show');
-        return;
+        btn.classList.remove('speaking'); dot.classList.remove('pulse');
+        lbl.textContent='Hear Intro'; wrap.classList.remove('talking');
+        bbl.textContent=''; bbl.classList.remove('show'); return;
     }
-    const fullMsg="Hi, I'm Ayushman Varma — SAP Ariba Technical Consultant with 7 years of experience delivering complex global procurement transformations across 14 countries. Welcome to my portfolio.";
-    const typeMsg="Hi, I'm Ayushman Varma.";
-    bbl.textContent=''; bbl.classList.add('show');
+    avJingle();
+    const script="Hey! Ayushman Varma here. Seven years. Fourteen countries. Seventy enterprise clients. Four perfect scores back to back. That is not just experience — that is a track record. Scroll down and see what makes this different.";
+    const typed="Hey! I'm Ayushman. 👋";
+    bbl.textContent=''; bbl.classList.add('show'); wrap.classList.add('talking');
     let i=0;
-    const ti=setInterval(()=>{ if(i<typeMsg.length){ bbl.textContent+=typeMsg[i++]; } else clearInterval(ti); },52);
-    if(!window.speechSynthesis){ setTimeout(()=>{ bbl.classList.remove('show'); },3200); return; }
-    const u=new SpeechSynthesisUtterance(fullMsg);
-    u.rate=0.88; u.pitch=1.0; u.volume=1; u.lang='en-IN';
-    const setVoice=()=>{
+    const ti=setInterval(()=>{ if(i<typed.length){bbl.textContent+=typed[i++];}else clearInterval(ti); },55);
+    if(!window.speechSynthesis){ setTimeout(()=>{ bbl.classList.remove('show'); wrap.classList.remove('talking'); },3500); return; }
+    const u=new SpeechSynthesisUtterance(script);
+    u.rate=1.08; u.pitch=1.1; u.volume=1; u.lang='en-US';
+    const pickVoice=()=>{
         const vv=window.speechSynthesis.getVoices();
-        const pick=vv.find(v=>v.lang==='en-IN')||vv.find(v=>v.name.includes('Daniel'))||vv.find(v=>v.name.includes('Alex'))||vv.find(v=>v.lang.startsWith('en-GB'))||vv.find(v=>v.lang.startsWith('en-'));
-        if(pick) u.voice=pick;
+        return vv.find(v=>v.name==='Google US English')
+            ||vv.find(v=>v.name.includes('Google')&&v.lang.startsWith('en'))
+            ||vv.find(v=>v.name==='Samantha')
+            ||vv.find(v=>v.name==='Daniel')
+            ||vv.find(v=>v.lang.startsWith('en-GB'))
+            ||vv.find(v=>v.lang.startsWith('en-US'))
+            ||vv.find(v=>v.lang.startsWith('en-'));
     };
-    if(window.speechSynthesis.getVoices().length) setVoice();
-    else window.speechSynthesis.addEventListener('voiceschanged',setVoice,{once:true});
-    btn.classList.add('speaking');
-    dot.classList.add('pulse');
-    lbl.textContent='Stop';
+    const v=pickVoice();
+    if(v) u.voice=v;
+    else window.speechSynthesis.addEventListener('voiceschanged',()=>{ const v2=pickVoice(); if(v2) u.voice=v2; },{once:true});
+    btn.classList.add('speaking'); dot.classList.add('pulse'); lbl.textContent='Stop';
     window.speechSynthesis.speak(u);
     u.onend=()=>{
-        btn.classList.remove('speaking');
-        dot.classList.remove('pulse');
-        lbl.textContent='Hear Intro';
+        btn.classList.remove('speaking'); dot.classList.remove('pulse');
+        lbl.textContent='Hear Intro'; wrap.classList.remove('talking');
         setTimeout(()=>{ bbl.classList.remove('show'); bbl.textContent=''; },1400);
     };
 }
