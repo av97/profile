@@ -184,6 +184,91 @@
         @keyframes bob { 0%,100%{opacity:.3} 50%{opacity:1} }
         @keyframes fup { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
 
+        /* ── HERO AVATAR ── */
+        .av-wrap {
+            position:absolute; right:90px; bottom:0;
+            width:240px; height:510px;
+            z-index:1;
+            opacity:0; animation:av-enter .8s ease 3.2s forwards;
+        }
+        .av-inner {
+            position:relative; width:100%; height:100%;
+            animation:av-float 4.8s ease-in-out 4.2s infinite;
+        }
+        @keyframes av-enter { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes av-float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-16px)} }
+        .av-glow {
+            position:absolute; bottom:4px; left:50%;
+            transform:translateX(-50%);
+            width:220px; height:70px;
+            background:radial-gradient(ellipse at center, rgba(255,77,0,.52) 0%, transparent 68%);
+            filter:blur(22px);
+            pointer-events:none;
+        }
+        .av-img {
+            position:absolute; bottom:0; left:0;
+            width:100%; height:96%;
+            object-fit:contain;
+            object-position:bottom center;
+            filter:brightness(.82) saturate(.76) contrast(1.12) drop-shadow(0 0 28px rgba(255,77,0,.2));
+            -webkit-mask-image:linear-gradient(to bottom, black 0%, black 62%, transparent 100%);
+            mask-image:linear-gradient(to bottom, black 0%, black 62%, transparent 100%);
+            pointer-events:none;
+            display:block;
+        }
+        .av-bubble {
+            position:absolute; top:-2px; left:50%;
+            transform:translateX(-80%);
+            background:rgba(7,7,9,.97);
+            border:1px solid var(--orange);
+            border-radius:10px 10px 10px 2px;
+            padding:10px 15px;
+            font-family:var(--mono); font-size:10px; line-height:1.6;
+            letter-spacing:.06em; color:var(--fg);
+            white-space:nowrap; min-width:160px;
+            opacity:0; transition:opacity .45s ease;
+            pointer-events:none;
+            box-shadow:0 0 26px rgba(255,77,0,.22), inset 0 0 0 1px rgba(255,77,0,.08);
+            z-index:10;
+        }
+        .av-bubble.show { opacity:1; }
+        .av-bubble::after {
+            content:''; position:absolute; bottom:-8px; right:24px;
+            border:8px solid transparent;
+            border-top:8px solid var(--orange);
+            border-bottom:0;
+        }
+        .av-speak-btn {
+            position:absolute; bottom:62px; left:50%;
+            transform:translateX(-50%);
+            background:rgba(255,77,0,.1);
+            border:1px solid rgba(255,77,0,.5);
+            border-radius:24px; padding:8px 16px;
+            cursor:pointer; display:flex; align-items:center; gap:7px;
+            font-family:var(--mono); font-size:9px; letter-spacing:.14em;
+            text-transform:uppercase; color:var(--fg);
+            transition:all .25s; backdrop-filter:blur(6px);
+            z-index:5; white-space:nowrap;
+        }
+        .av-speak-btn:hover {
+            background:rgba(255,77,0,.24);
+            border-color:var(--orange);
+            transform:translateX(-50%) scale(1.06);
+            box-shadow:0 0 22px rgba(255,77,0,.4);
+        }
+        .av-speak-btn.speaking {
+            background:rgba(255,77,0,.18);
+            animation:av-ring 1.1s ease-in-out infinite;
+        }
+        @keyframes av-ring {
+            0%{ box-shadow:0 0 0 0 rgba(255,77,0,.55); }
+            70%{ box-shadow:0 0 0 10px rgba(255,77,0,0); }
+            100%{ box-shadow:0 0 0 0 rgba(255,77,0,0); }
+        }
+        .av-dot { width:6px; height:6px; border-radius:50%; background:var(--orange); flex-shrink:0; }
+        .av-dot.pulse { animation:blink 1s ease infinite; }
+        @media(max-width:900px){ .av-wrap{ display:none; } }
+
         /* ── MARQUEE ── */
         .mq { background:var(--orange); overflow:hidden; padding:13px 0; display:flex; }
         .mq-track {
@@ -499,6 +584,17 @@
     <div class="h-foot">
         <div class="h-role"><strong>70+ Enterprise Clients · 14+ Countries</strong> · 4× Perfect 7/7 VOC · 5 ESA Nominations · SAP Celebrate Award</div>
         <div class="h-scroll"><div class="h-bar"></div>Scroll</div>
+    </div>
+    <!-- AVATAR -->
+    <div class="av-wrap" id="av-char">
+        <div class="av-inner">
+            <div class="av-glow"></div>
+            <img class="av-img" src="av-photo.png" alt="Ayushman Varma" />
+            <div class="av-bubble" id="av-bubble"></div>
+            <button class="av-speak-btn" id="av-btn" onclick="avSpeak()" aria-label="Play voice introduction">
+                <span class="av-dot" id="av-dot"></span><span id="av-label">Hear Intro</span>
+            </button>
+        </div>
     </div>
 </section>
 
@@ -1151,6 +1247,47 @@ document.querySelectorAll('.pr-card').forEach(c=>{
     });
     c.addEventListener('mouseleave',()=>{c.style.transform='';});
 });
+
+// AVATAR VOICE INTRO
+function avSpeak(){
+    const btn=document.getElementById('av-btn');
+    const bbl=document.getElementById('av-bubble');
+    const dot=document.getElementById('av-dot');
+    const lbl=document.getElementById('av-label');
+    if(window.speechSynthesis && window.speechSynthesis.speaking){
+        window.speechSynthesis.cancel();
+        btn.classList.remove('speaking');
+        dot.classList.remove('pulse');
+        lbl.textContent='Hear Intro';
+        bbl.textContent=''; bbl.classList.remove('show');
+        return;
+    }
+    const fullMsg="Hi, I'm Ayushman Varma — SAP Ariba Technical Consultant with 7 years of experience delivering complex global procurement transformations across 14 countries. Welcome to my portfolio.";
+    const typeMsg="Hi, I'm Ayushman Varma.";
+    bbl.textContent=''; bbl.classList.add('show');
+    let i=0;
+    const ti=setInterval(()=>{ if(i<typeMsg.length){ bbl.textContent+=typeMsg[i++]; } else clearInterval(ti); },52);
+    if(!window.speechSynthesis){ setTimeout(()=>{ bbl.classList.remove('show'); },3200); return; }
+    const u=new SpeechSynthesisUtterance(fullMsg);
+    u.rate=0.88; u.pitch=1.0; u.volume=1; u.lang='en-IN';
+    const setVoice=()=>{
+        const vv=window.speechSynthesis.getVoices();
+        const pick=vv.find(v=>v.lang==='en-IN')||vv.find(v=>v.name.includes('Daniel'))||vv.find(v=>v.name.includes('Alex'))||vv.find(v=>v.lang.startsWith('en-GB'))||vv.find(v=>v.lang.startsWith('en-'));
+        if(pick) u.voice=pick;
+    };
+    if(window.speechSynthesis.getVoices().length) setVoice();
+    else window.speechSynthesis.addEventListener('voiceschanged',setVoice,{once:true});
+    btn.classList.add('speaking');
+    dot.classList.add('pulse');
+    lbl.textContent='Stop';
+    window.speechSynthesis.speak(u);
+    u.onend=()=>{
+        btn.classList.remove('speaking');
+        dot.classList.remove('pulse');
+        lbl.textContent='Hear Intro';
+        setTimeout(()=>{ bbl.classList.remove('show'); bbl.textContent=''; },1400);
+    };
+}
 </script>
 </body>
 </html>
